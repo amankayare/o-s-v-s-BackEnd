@@ -15,6 +15,6 @@ public class OsvsApplication {
 
 	@GetMapping("/")
 	public String sayHello(){
-		return "Hey Hello";
+		return " Hello world";
 	}
 }
