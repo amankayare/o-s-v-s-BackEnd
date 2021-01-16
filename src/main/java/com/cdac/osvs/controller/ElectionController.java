@@ -3,7 +3,7 @@ package com.cdac.osvs.controller;
 import java.util.List;
 
 
-
+import com.cdac.osvs.dto.Voter_Election_Voted;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,11 +54,23 @@ public class ElectionController {
 			
 			return electionService.selectById(id);
 		}
-		
+
 		@CrossOrigin(origins = "*")
 		@GetMapping(path = "getAllElection", consumes = "application/json", produces = "application/json")
 		public List<Election> getAllElection() {
 			
 			return electionService.selectAllElection();
 		}
+
+	/*@CrossOrigin(origins = "*")
+	@PostMapping(path = "setvoterToElection", consumes = "application/json")
+	public String setvoterToElection(@) {
+
+		return electionService.addingVoterToElection();
+	}
+
+	 */
+
+
+
 }
