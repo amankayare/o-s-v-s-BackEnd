@@ -1,25 +1,37 @@
 package com.cdac.osvs.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "candidate")
 public class Candidate {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "candidate_Id")
 	private int candidateId;
-	@Column(name = "full_Name")
+	
+	@Column(name = "full_Name",nullable = false)
 	private String fullName;
 	
+	@Column(name = "email",nullable = false,unique = true)
 	private String email;
+	
+	@Column(name = "symbol",nullable = false)
 	private String symbol;
-	@Column(name = "election_Id")
+	
+	@Column(name = "election_Id",nullable = false)
 	private int electionId;
+	
+	@Column(name = "votedEarned",nullable = false)
 	private int voteEarned;
+
+
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH},mappedBy = "candidateList")
+	private Set<Election> candidateElectionList = new HashSet<>();
+
+
 	public Candidate() {
 		super();
 		
