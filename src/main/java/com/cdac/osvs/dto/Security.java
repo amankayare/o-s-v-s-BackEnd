@@ -19,10 +19,10 @@ public class Security {
 	private int voterId;
 	
 	@Column(name = "original_Img",nullable = false)
-	private String orignalImg;
+	private byte[]  orignalImg;
 	
 	@Column(name = "shareone_Img",nullable = false)
-	private String shareoneImg;
+	private byte[]  shareoneImg;
 	
 	@Column(name = "key_value",nullable = false,unique = true)
 	private String keyValue;
@@ -48,19 +48,19 @@ public class Security {
 		this.voterId = voterId;
 	}
 
-	public String getOrignalImg() {
+	public byte[] getOrignalImg() {
 		return orignalImg;
 	}
 
-	public void setOrignalImg(String orignalImg) {
+	public void setOrignalImg(byte[] orignalImg) {
 		this.orignalImg = orignalImg;
 	}
 
-	public String getShareoneImg() {
+	public byte[] getShareoneImg() {
 		return shareoneImg;
 	}
 
-	public void setShareoneImg(String shareoneImg) {
+	public void setShareoneImg(byte[] shareoneImg) {
 		this.shareoneImg = shareoneImg;
 	}
 
@@ -77,5 +77,5 @@ public class Security {
 		return "Security [securityId=" + securityId + ", voterId=" + voterId + ", orignalImg=" + orignalImg
 				+ ", shareoneImg=" + shareoneImg + ", keyValue=" + keyValue + "]";
 	}
-	
+
 }

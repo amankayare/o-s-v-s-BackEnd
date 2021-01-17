@@ -85,7 +85,7 @@ public class RandomUtil {
             g.drawLine(x1, y1, x2, y2);
         }
     }
-    public String generatingRandomAlphanumericFileName() {
+    public static String generatingRandomAlphanumericFileName() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 10;

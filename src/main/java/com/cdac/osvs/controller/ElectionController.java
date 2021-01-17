@@ -56,21 +56,17 @@ public class ElectionController {
 		}
 
 		@CrossOrigin(origins = "*")
-		@GetMapping(path = "getAllElection", consumes = "application/json", produces = "application/json")
+		@GetMapping(path = "getAllElection", produces = "application/json")
 		public List<Election> getAllElection() {
 			
 			return electionService.selectAllElection();
 		}
 
-	/*@CrossOrigin(origins = "*")
-	@PostMapping(path = "setvoterToElection", consumes = "application/json")
-	public String setvoterToElection(@) {
 
-		return electionService.addingVoterToElection();
 	}
 
-	 */
 
 
 
-}
+
+
