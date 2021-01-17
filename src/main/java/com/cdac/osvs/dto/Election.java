@@ -1,5 +1,7 @@
 package com.cdac.osvs.dto;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,13 +26,13 @@ public class Election {
 
 	private String name;
 	
-	@Column(name = "start_Date",nullable = false)
+	@Column(name = "start_Date")
 	private String startDate;
 	
-	@Column(name = "end_Date",nullable = false)
+	@Column(name = "end_Date")
 	private String endDate;
 	
-	@Column(name = "result_Date",nullable = false)
+	@Column(name = "result_Date")
 	private String resultDate;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -41,10 +43,11 @@ public class Election {
 	@JoinTable(name="election_candidate")
 	private Set<Candidate> candidateList = new HashSet<>();
 
-	@Column(name = "organization_id",nullable = false)
+	@Column(name = "organization_id")
 	private String organization_id;
 
-	@Column(name = "cin",nullable = false)
+	@Column(name = "cin" )
+	@ColumnDefault(value="gjgjhjg")
 	private String cin;
 
 	public Election() {

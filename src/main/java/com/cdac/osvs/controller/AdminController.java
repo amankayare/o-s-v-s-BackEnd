@@ -54,7 +54,7 @@ public class AdminController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@GetMapping(path = "getAllAdmin", consumes = "application/json", produces = "application/json")
+		@GetMapping(path = "getAllAdmin", produces = "application/json")
 		public List<Admin> getAllAdmin() {
 			
 			return  adminService.selectAllAdmin();
