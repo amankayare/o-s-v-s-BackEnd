@@ -25,7 +25,7 @@ public class Security {
 	private byte[]  shareoneImg;
 	
 	@Column(name = "key_value",nullable = false,unique = true)
-	private String keyValue;
+	private int keyValue;
 	
 	public Security() {
 		super();
@@ -64,11 +64,11 @@ public class Security {
 		this.shareoneImg = shareoneImg;
 	}
 
-	public String getKeyValue() {
+	public int getKeyValue() {
 		return keyValue;
 	}
 
-	public void setKeyValue(String keyValue) {
+	public void setKeyValue(int keyValue) {
 		this.keyValue = keyValue;
 	}
 

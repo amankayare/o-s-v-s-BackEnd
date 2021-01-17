@@ -16,7 +16,7 @@ public class RandomUtil {
 
     public static final int WIDTH = 600;
     public static final int HEIGHT = 500;
-    public static final  String uploadDirectory = System.getProperty("user.dir")+"\\src\\main\\resources\\uploads";
+    public static final  String uploadDirectory = System.getProperty("user.dir")+"\\src\\main\\resources\\uploads\\";
 
     public static File generateRamdomImage(String fileName) {
 
@@ -98,5 +98,10 @@ public class RandomUtil {
                 .toString();
 
         return generatedString;
+    }
+
+    public static int getRandomNumberUsingNextInt(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min) + min;
     }
 }

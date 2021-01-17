@@ -1,6 +1,8 @@
 package com.cdac.osvs.util.images;
 
 
+import com.cdac.osvs.util.RandomUtil;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,7 +42,7 @@ public class SplitImage {
 					System.out.println("creating piece: "+i+" "+j);
 					
 					BufferedImage SubImgage = originalImgage.getSubimage(y, x, eWidth, eHeight);
-					File outputfile = new File(System.getProperty("user.dir")+"\\src\\main\\resources\\split\\"+i+j+".png");
+					File outputfile = new File(RandomUtil.uploadDirectory +i+j+".png");
 					//File[i]=outputfile;
 					ImageIO.write(SubImgage, "png", outputfile);
 					files.add(outputfile);
