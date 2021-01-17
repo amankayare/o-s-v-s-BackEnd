@@ -55,6 +55,12 @@ public class Voter {
 		this.email = email;
 	}
 	
+	public Set<Election> getVoterElectionList() {
+		return voterElectionList;
+	}
+	public void setVoterElectionList(Set<Election> voterElectionList) {
+		this.voterElectionList = voterElectionList;
+	}
 	@Override
 	public String toString() {
 		return "Voter [voterId=" + voterId + ", fullName=" + fullName + ", adharNo=" + adharNo + ", voted="
