@@ -15,7 +15,7 @@ public class Election {
 	private int electionId;
 
 
-	private String name;
+	private String electionName;
 	
 	@Column(name = "start_Date",nullable = false)
 	private String startDate;
@@ -53,12 +53,14 @@ public class Election {
 		this.electionId = electionId;
 	}
 
-	public String getName() {
-		return name;
+	
+
+	public String getElectionName() {
+		return electionName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setElectionName(String electionName) {
+		this.electionName = electionName;
 	}
 
 	public String getStartDate() {
@@ -119,7 +121,7 @@ public class Election {
 
 	@Override
 	public String toString() {
-		return "Election [electionId=" + electionId + ", name=" + name + ", startDate=" + startDate + ", endDate="
+		return "Election [electionId=" + electionId + ", name=" + electionName + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", resultDate=" + resultDate + ", voterList=" + voterList + ", candidateList="
 				+ candidateList + ", organization_id=" + organization_id + ", cin=" + cin + "]";
 	}
