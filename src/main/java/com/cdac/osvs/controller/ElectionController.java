@@ -3,7 +3,7 @@ package com.cdac.osvs.controller;
 import java.util.List;
 
 
-
+import com.cdac.osvs.dto.Voter_Election_Voted;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +28,7 @@ public class ElectionController {
 		public ElectionService electionService;
 		
 		@CrossOrigin(origins = "*")
-		@PostMapping(path = "addElection", consumes = "application/json", produces = "application/json")
+		@PostMapping(path = "addElection", consumes = "application/json")
 		public String addElection(@RequestBody Election election) {
 			electionService.insertElection(election);
 			return "Success";
@@ -49,16 +49,28 @@ public class ElectionController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@GetMapping(path ="getElection/{id}", consumes = "application/json", produces = "application/json")
+		@GetMapping(path ="getElection/{id}", produces = "application/json")
 		public Election getElection(@PathVariable Integer id) {
 			
 			return electionService.selectById(id);
 		}
-		
+
 		@CrossOrigin(origins = "*")
-		@GetMapping(path = "getAllElection", consumes = "application/json", produces = "application/json")
+		@GetMapping(path = "getAllElection",  produces = "application/json")
 		public List<Election> getAllElection() {
 			
 			return electionService.selectAllElection();
 		}
+
+	/*@CrossOrigin(origins = "*")
+	@PostMapping(path = "setvoterToElection", consumes = "application/json")
+	public String setvoterToElection(@) {
+
+		return electionService.addingVoterToElection();
+	}
+
+	 */
+
+
+
 }

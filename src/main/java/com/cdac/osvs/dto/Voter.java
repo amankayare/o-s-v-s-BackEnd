@@ -3,13 +3,7 @@ package com.cdac.osvs.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="voters")
@@ -28,8 +22,13 @@ public class Voter {
 	
 	@Column(name="voter_Email",nullable = false,unique = true)
 	private String email;
-	
-	 
+
+
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH},mappedBy = "voterList")
+	private Set<Election> voterElectionList = new HashSet<>();
+
+
+
 	public int getVoterId() {
 		return voterId;
 	}

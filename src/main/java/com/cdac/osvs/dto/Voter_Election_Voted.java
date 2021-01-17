@@ -15,10 +15,10 @@ public class Voter_Election_Voted {
 	
 	@Column(nullable = false)
 	private int electionId;
-	
+
 	@Column(nullable = false)
 	private int voterId;
-	
+
 	@Column(nullable = false)
 	private int isVoted;
 

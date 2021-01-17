@@ -16,31 +16,31 @@ import com.cdac.osvs.service.ElectionService;
 public class ElectionServiceImple  implements ElectionService{
 
 	@Autowired
-	private ElectionRepo EletionRepo;
+	private ElectionRepo electionRepo;
 	
 	@Override
 	public List<Election> selectAllElection() {
-		List<Election> list=EletionRepo.findAll();
+		List<Election> list= electionRepo.findAll();
 		return list;
 	}
 
 	@Override
 	public Election selectById(int id) {
-		Optional<Election> opt=EletionRepo.findById(id);
+		Optional<Election> opt= electionRepo.findById(id);
 		
 		return opt.get();
 	}
 
 	@Override
 	public void deleteById(int id) {
-		EletionRepo.deleteById(id);
+		electionRepo.deleteById(id);
 		
 		
 	}
 
 	@Override
 	public void insertElection(Election election) {
-		EletionRepo.save(election);
+		electionRepo.save(election);
 		
 	}
 
@@ -48,10 +48,10 @@ public class ElectionServiceImple  implements ElectionService{
 	@Override
 	public String update(Election election) {
 		
-	Optional<Election> pt=	EletionRepo.findById(election.getElectionId());
+	Optional<Election> pt=	electionRepo.findById(election.getElectionId());
 	
 	if(pt.isPresent()) {
-		EletionRepo.save(election);
+		electionRepo.save(election);
 	    return "Election is updated";
 	}else {
 		 return "Election is not found";
@@ -59,5 +59,15 @@ public class ElectionServiceImple  implements ElectionService{
 		
 	}
 
-	
+	@Override
+	public String addingVoterToElection(int voterId, int electionId) {
+		return null;
+	}
+
+	@Override
+	public String addingCandidateToElection(int candidateId, int electionId) {
+		return null;
+	}
+
+
 }

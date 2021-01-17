@@ -1,11 +1,9 @@
 package com.cdac.osvs.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "candidate")
 public class Candidate {
@@ -28,7 +26,12 @@ public class Candidate {
 	
 	@Column(name = "votedEarned",nullable = false)
 	private int voteEarned;
-	
+
+
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH},mappedBy = "candidateList")
+	private Set<Election> candidateElectionList = new HashSet<>();
+
+
 	public Candidate() {
 		super();
 		
