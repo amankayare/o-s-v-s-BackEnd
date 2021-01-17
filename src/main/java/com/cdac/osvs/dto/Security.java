@@ -71,5 +71,11 @@ public class Security {
 	public void setKeyValue(String keyValue) {
 		this.keyValue = keyValue;
 	}
+
+	@Override
+	public String toString() {
+		return "Security [securityId=" + securityId + ", voterId=" + voterId + ", orignalImg=" + orignalImg
+				+ ", shareoneImg=" + shareoneImg + ", keyValue=" + keyValue + "]";
+	}
 	
 }

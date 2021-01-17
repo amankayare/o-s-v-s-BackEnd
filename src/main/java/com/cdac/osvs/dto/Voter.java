@@ -22,7 +22,10 @@ public class Voter {
 	
 	@Column(name="voter_Email",nullable = false,unique = true)
 	private String email;
-
+   
+	
+	private String EmployeeId;
+	
 
 	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH},mappedBy = "voterList")
 	private Set<Election> voterElectionList = new HashSet<>();
@@ -60,6 +63,13 @@ public class Voter {
 	}
 	public void setVoterElectionList(Set<Election> voterElectionList) {
 		this.voterElectionList = voterElectionList;
+	}
+	
+	public String getEmployeeId() {
+		return EmployeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		EmployeeId = employeeId;
 	}
 	@Override
 	public String toString() {
