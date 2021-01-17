@@ -31,14 +31,14 @@ public class VoterController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@PutMapping(path ="updateVoter", consumes = "application/json", produces = "application/json")
+		@PutMapping(path ="modifyVoter", consumes = "application/json", produces = "application/json")
 		public String modifyVoter(@RequestBody Voter voter) {
 			voterService.update(voter);
 			return "Success";
 		}
 		
 		@CrossOrigin(origins = "*")
-		@DeleteMapping(path ="deleteVoter/{id}", consumes = "application/json", produces = "application/json")
+		@DeleteMapping(path ="removeVoter/{id}", consumes = "application/json", produces = "application/json")
 		public String removeVoter(@PathVariable Integer id) {
 			voterService.deleteById(id);
 			return "Success";

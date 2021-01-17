@@ -34,14 +34,14 @@ public class SecurityController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@PutMapping(path = "updateSecurity", consumes = "application/json", produces = "application/json")
+		@PutMapping(path = "modifySecurity", consumes = "application/json", produces = "application/json")
 		public String modifySecurity(@RequestBody  Security security) {
 			securityService.update(security);
 			return "Success";
 		}
 		
 		@CrossOrigin(origins = "*")
-		@DeleteMapping(path = "deleteSecurity/{id}", consumes = "application/json", produces = "application/json")
+		@DeleteMapping(path = "removeSecurity/{id}", consumes = "application/json", produces = "application/json")
 		public String removeSecurity(@PathVariable Integer id) {
 			securityService.deleteById(id);
 			return "Success";

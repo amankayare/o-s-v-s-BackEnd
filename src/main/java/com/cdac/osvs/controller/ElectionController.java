@@ -28,21 +28,21 @@ public class ElectionController {
 		public ElectionService electionService;
 		
 		@CrossOrigin(origins = "*")
-		@PostMapping(path = "addElection", consumes = "application/json", produces = "application/json")
+		@PostMapping(path = "addElection")
 		public String addElection(@RequestBody Election election) {
 			electionService.insertElection(election);
 			return "Success";
 		}
 		
 		@CrossOrigin(origins = "*")
-		@PutMapping(path = "updateElection", consumes = "application/json", produces = "application/json")
+		@PutMapping(path = "modifyElection", consumes = "application/json", produces = "application/json")
 		public String modifyElection(@RequestBody  Election election) {
 			electionService.update(election);
 			return "Success";
 		}
 		
 		@CrossOrigin(origins = "*")
-		@DeleteMapping(path = "deleteElection/{id}", consumes = "application/json", produces = "application/json")
+		@DeleteMapping(path = "removeElection/{id}", consumes = "application/json", produces = "application/json")
 		public String removeElection(@PathVariable Integer id) {
 			electionService.deleteById(id);
 			return "Success";
