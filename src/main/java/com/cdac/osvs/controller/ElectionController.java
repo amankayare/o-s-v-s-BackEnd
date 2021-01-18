@@ -28,7 +28,7 @@ public class ElectionController {
 		public ElectionService electionService;
 		
 		@CrossOrigin(origins = "*")
-		@PostMapping(path = "addElection")
+		@PostMapping(path = "addElection", consumes = "application/json")
 		public String addElection(@RequestBody Election election) {
 			electionService.insertElection(election);
 			return "Success";
@@ -49,14 +49,14 @@ public class ElectionController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@GetMapping(path ="getElection/{id}", consumes = "application/json", produces = "application/json")
+		@GetMapping(path ="getElection/{id}", produces = "application/json")
 		public Election getElection(@PathVariable Integer id) {
 			
 			return electionService.selectById(id);
 		}
 
 		@CrossOrigin(origins = "*")
-		@GetMapping(path = "getAllElection", consumes = "application/json", produces = "application/json")
+		@GetMapping(path = "getAllElection",  produces = "application/json")
 		public List<Election> getAllElection() {
 			
 			return electionService.selectAllElection();
