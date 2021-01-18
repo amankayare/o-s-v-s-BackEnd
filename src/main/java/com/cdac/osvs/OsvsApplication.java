@@ -13,7 +13,7 @@ public class OsvsApplication {
 
 	public static void main(String[] args) {
 
-		//new File(System.getProperty(RandomUtil.uploadDirectory)).mkdir();
+	   new File(RandomUtil.uploadDirectory).mkdir();
 
 		SpringApplication.run(OsvsApplication.class, args);
 	}

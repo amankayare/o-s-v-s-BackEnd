@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cdac.osvs.dto.Admin;
 import com.cdac.osvs.dto.Candidate;
 import com.cdac.osvs.repo.CandidateRepo;
 import com.cdac.osvs.service.CandidateService;
