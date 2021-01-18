@@ -18,14 +18,19 @@ public class Security {
 	@Column(name = "voter_Id",nullable = false)
 	private int voterId;
 	
-	@Column(name = "original_Img",nullable = false)
+	@Column(name = "original_Img",nullable = false,length = 1000)
 	private byte[]  orignalImg;
 	
-	@Column(name = "shareone_Img",nullable = false)
+	@Column(name = "shareone_Img",nullable = false,length = 1000)
 	private byte[]  shareoneImg;
 	
 	@Column(name = "key_value",nullable = false,unique = true)
 	private int keyValue;
+	
+	@Column(name = "election_Id",nullable = false)
+	private int electionId;
+	
+	
 	
 	public Security() {
 		super();
@@ -70,6 +75,14 @@ public class Security {
 
 	public void setKeyValue(int keyValue) {
 		this.keyValue = keyValue;
+	}
+
+	public int getElectionId() {
+		return electionId;
+	}
+
+	public void setElectionId(int electionId) {
+		this.electionId = electionId;
 	}
 
 	@Override

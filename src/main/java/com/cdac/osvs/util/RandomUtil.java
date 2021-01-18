@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -85,6 +87,7 @@ public class RandomUtil {
             g.drawLine(x1, y1, x2, y2);
         }
     }
+    
     public static String generatingRandomAlphanumericFileName() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
@@ -100,8 +103,19 @@ public class RandomUtil {
         return generatedString;
     }
 
-    public static int getRandomNumberUsingNextInt(int min, int max) {
+//    public static int getRandomNumberUsingNextInt(int min, int max) {
+//        Random random = new Random();
+//        return random.nextInt(max - min) + min;
+//    }
+//    
+    
+    public static int generateRandom(int length) {
+        int min = (int) Math.pow(10, length - 1);
+        int max = (int) Math.pow(10, length); // bound is exclusive
         Random random = new Random();
+
         return random.nextInt(max - min) + min;
     }
+
+
 }

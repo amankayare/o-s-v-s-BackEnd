@@ -24,6 +24,9 @@ public class EmailService {
 
     @Value("${angular.port}")
     String angularPort;
+    
+    @Value("${email.candidate.register.subject}")
+    String candidateRegistration;
 
 
     public void sendMessageWithAttachment(String to,String name ,File attachmentFile) throws  Exception{
@@ -45,6 +48,8 @@ public class EmailService {
 
 
     }
+    
+    
     public void  sendMessageForVoterRegister(String to,String name) throws  Exception{
         MimeMessage message = emailSender.createMimeMessage();
 
@@ -60,8 +65,24 @@ public class EmailService {
 
 
         emailSender.send(message);
-
-
     }
 
+    
+    public void  sendMessageForCandidateRegister(String to,String name) throws  Exception{
+        MimeMessage message = emailSender.createMimeMessage();
+
+        String text = "http://localhost:"+angularPort+"/E-Bellot/api/addCandidate/";
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("eballotonlinevotingsystem@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(candidateRegistration);
+        helper.setText(text);
+
+
+
+        emailSender.send(message);
+    }
+    
 }

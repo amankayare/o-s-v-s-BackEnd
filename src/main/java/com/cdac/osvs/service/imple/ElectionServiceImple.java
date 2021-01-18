@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.cdac.osvs.dto.Security;
 import com.cdac.osvs.dto.Voter;
+import com.cdac.osvs.dto.Voter_Election_Voted;
 import com.cdac.osvs.service.SecurityService;
 import com.cdac.osvs.util.RandomUtil;
 import com.cdac.osvs.util.email.EmailService;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import com.cdac.osvs.dto.Election;
 import com.cdac.osvs.repo.ElectionRepo;
+import com.cdac.osvs.repo.VoterElectionVotedRepo;
+import com.cdac.osvs.repo.VoterRepo;
 import com.cdac.osvs.service.ElectionService;
 
 
@@ -35,6 +38,9 @@ public class ElectionServiceImple  implements ElectionService{
 	@Autowired
 	private EmailService emailService;
 
+	@Autowired
+	private VoterElectionVotedRepo voterElectionVotedRepo;
+	
 	@Override
 	public List<Election> selectAllElection() {
 		List<Election> list= electionRepo.findAll();
@@ -63,9 +69,19 @@ public class ElectionServiceImple  implements ElectionService{
 		Set<Voter> voterList = election.getVoterList();
 
 		for (Voter voter :voterList) {
+			
+			Voter_Election_Voted  voterEletionVoted=new Voter_Election_Voted();
+			
+			voterEletionVoted.setElectionId(election.getElectionId());
+			voterEletionVoted.setVoterId(voter.getVoterId());
+			
+			voterElectionVotedRepo.save(voterEletionVoted); //adding data into voterEletionVoted
+			
 			int voterId = voter.getVoterId();
+			
 		//	String randomKey = RandomUtil.generatingRandomAlphanumericFileName();
-			int randomKey = RandomUtil.getRandomNumberUsingNextInt(8,11);
+			
+			int randomKey = RandomUtil.generateRandom(8);
 
 
 			String randomImageName = RandomUtil.generatingRandomAlphanumericFileName();
@@ -96,11 +112,13 @@ public class ElectionServiceImple  implements ElectionService{
 			security.setShareoneImg(databaseShare);
 			security.setKeyValue(randomKey);
 			security.setVoterId(voterId);
+			security.setElectionId(election.getElectionId());
 
 			File emailShare = splitedFiles.get(1);
 
 			try{
 				File encryptedEmailShare =  EncryptImage.doEncrypt(emailShare,randomKey);
+				
 				securityService.insertSecurity(security);
 
 				for (Voter voter2 :voterList) {
@@ -113,10 +131,6 @@ public class ElectionServiceImple  implements ElectionService{
 				e.printStackTrace();
 
 			}
-
-
-
-
 
 		}
 

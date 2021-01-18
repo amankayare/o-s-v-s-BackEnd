@@ -2,8 +2,12 @@ package com.cdac.osvs.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "Voter_Election_IsVoted")
@@ -11,6 +15,7 @@ public class Voter_Election_Voted {
 	
 	@Id
 	@Column(name = "Voter_Election_IsVotedId")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int VoterElectionIsVotedId;
 	
 	@Column(nullable = false)
@@ -20,6 +25,7 @@ public class Voter_Election_Voted {
 	private int voterId;
 
 	@Column(nullable = false)
+	@ColumnDefault(value ="0")
 	private int isVoted;
 
 	public int getVoterElectionIsVotedId() {

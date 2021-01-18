@@ -59,6 +59,9 @@ public class SplitImage {
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
+	
+	   System.out.println("split image");
+	   
 	return files;
 	
 	

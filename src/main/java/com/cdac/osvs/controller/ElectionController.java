@@ -3,7 +3,7 @@ package com.cdac.osvs.controller;
 import java.util.List;
 
 
-import com.cdac.osvs.dto.Voter_Election_Voted;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -14,6 +14,7 @@ public class OsvsApplication {
 	public static void main(String[] args) {
 
 	   new File(RandomUtil.uploadDirectory).mkdir();
+	   
 
 		SpringApplication.run(OsvsApplication.class, args);
 	}

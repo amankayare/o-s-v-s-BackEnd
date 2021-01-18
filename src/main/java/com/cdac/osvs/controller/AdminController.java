@@ -18,12 +18,14 @@ import com.cdac.osvs.service.AdminService;
 
 
 
+
 @RestController
 @RequestMapping("/api/")
 public class AdminController {
 	  
 		@Autowired
 		public AdminService adminService;
+		
 		
 		@CrossOrigin(origins = "*")
 		@PostMapping(path = "addAdmin", consumes = "application/json", produces = "application/json")

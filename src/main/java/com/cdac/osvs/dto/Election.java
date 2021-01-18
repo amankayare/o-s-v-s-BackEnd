@@ -39,7 +39,9 @@ public class Election {
 	@Column(name = "organization_id")
 	private String organization_id;
 
+
 	@Column(name = "cin" )
+	@ColumnDefault(value="0")
 	private String cin;
 
 	public Election() {

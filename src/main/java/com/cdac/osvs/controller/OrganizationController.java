@@ -1,7 +1,6 @@
 package com.cdac.osvs.controller;
 
 
-import com.cdac.osvs.dto.Admin;
 import com.cdac.osvs.dto.Organization;
 import com.cdac.osvs.service.OrganizationService;
 import com.cdac.osvs.service.VoterService;
