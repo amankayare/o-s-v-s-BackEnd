@@ -33,14 +33,14 @@ public class AdminController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@PutMapping(path ="updateAdmin", consumes = "application/json", produces = "application/json")
+		@PutMapping(path ="modifyAdmin", consumes = "application/json", produces = "application/json")
 		public String modifyAdmin(@RequestBody Admin admin) {
 		String data= adminService.update(admin);
 			return data;
 		}
 		
 		@CrossOrigin(origins = "*")
-		@DeleteMapping(path = "deleteAdmin/{id}", consumes = "application/json", produces = "application/json")
+		@DeleteMapping(path = "removeAdmin/{id}", consumes = "application/json", produces = "application/json")
 		public String removeAdmin(@PathVariable Integer id) {
 			 adminService.deleteById(id);
 			return "Success";

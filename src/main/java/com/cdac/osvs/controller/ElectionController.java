@@ -35,14 +35,14 @@ public class ElectionController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@PutMapping(path = "updateElection", consumes = "application/json", produces = "application/json")
+		@PutMapping(path = "modifyElection", consumes = "application/json", produces = "application/json")
 		public String modifyElection(@RequestBody  Election election) {
 			electionService.update(election);
 			return "Success";
 		}
 		
 		@CrossOrigin(origins = "*")
-		@DeleteMapping(path = "deleteElection/{id}", consumes = "application/json", produces = "application/json")
+		@DeleteMapping(path = "removeElection/{id}", consumes = "application/json", produces = "application/json")
 		public String removeElection(@PathVariable Integer id) {
 			electionService.deleteById(id);
 			return "Success";
@@ -62,15 +62,11 @@ public class ElectionController {
 			return electionService.selectAllElection();
 		}
 
-	/*@CrossOrigin(origins = "*")
-	@PostMapping(path = "setvoterToElection", consumes = "application/json")
-	public String setvoterToElection(@) {
 
-		return electionService.addingVoterToElection();
 	}
 
-	 */
 
 
 
-}
+
+

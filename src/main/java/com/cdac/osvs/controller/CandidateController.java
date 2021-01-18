@@ -33,14 +33,14 @@ public class CandidateController {
 		}
 		
 		@CrossOrigin(origins = "*")
-		@PutMapping(path = "updateCandidate", consumes = "application/json", produces = "application/json")
+		@PutMapping(path = "modifyCandidate", consumes = "application/json", produces = "application/json")
 		public String modifyCandidate(@RequestBody Candidate candidate) {
 			candidateService.update(candidate);
 			return "Success";
 		}
 		
 		@CrossOrigin(origins = "*")
-		@DeleteMapping(path = "deleteCandidate/{id}", consumes = "application/json", produces = "application/json")
+		@DeleteMapping(path = "removeCandidate/{id}", consumes = "application/json", produces = "application/json")
 		public String removeCandidate(@PathVariable Integer id) {
 			candidateService.deleteById(id);
 			return "Success";

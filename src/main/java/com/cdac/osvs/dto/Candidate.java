@@ -1,6 +1,9 @@
 package com.cdac.osvs.dto;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +28,7 @@ public class Candidate {
 	private int electionId;
 	
 	@Column(name = "votedEarned",nullable = false)
+	@ColumnDefault(value ="0")
 	private int voteEarned;
 
 
@@ -72,11 +76,22 @@ public class Candidate {
 	public void setVoteEarned(int voteEarned) {
 		this.voteEarned = voteEarned;
 	}
+	
+	
+	
+	public Set<Election> getCandidateElectionList() {
+		return candidateElectionList;
+	}
+	public void setCandidateElectionList(Set<Election> candidateElectionList) {
+		this.candidateElectionList = candidateElectionList;
+	}
 	@Override
 	public String toString() {
-		return  candidateId + " " + fullName + " " + email + " "
-				+ symbol + " " + electionId + " " + voteEarned ;
+		return "Candidate [candidateId=" + candidateId + ", fullName=" + fullName + ", email=" + email + ", symbol="
+				+ symbol + ", electionId=" + electionId + ", voteEarned=" + voteEarned + ", candidateElectionList="
+				+ candidateElectionList + "]";
 	}
+
 	
 	
 	
