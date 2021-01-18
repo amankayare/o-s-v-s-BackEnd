@@ -20,9 +20,14 @@ public class Voter {
 	private long adharNo;
 	
 	
+	
 	@Column(name="voter_Email",nullable = false,unique = true)
 	private String email;
    
+	
+	@Column(name="password",nullable = false)
+	private String password;
+	
 	
 	private String EmployeeId;
 	

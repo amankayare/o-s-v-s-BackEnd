@@ -46,6 +46,7 @@ public class EncryptImage {
 		// Closing file 
 		fos.close(); 
 		fis.close(); 
+		
 		System.out.println("Encyption Done...");
 
 		return fileToEncrypt;

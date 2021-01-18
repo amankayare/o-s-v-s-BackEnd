@@ -11,4 +11,6 @@ public interface CandidateService {
     public void deleteById(int id);
     public void insertCandidate(Candidate candidate);
     public String update(Candidate candidate);
+    public void addVoteEarned(int eId,int cId,int vId);
+    public int getVoteEarned(int eId,int cId);
 }

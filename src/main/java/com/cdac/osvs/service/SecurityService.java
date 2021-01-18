@@ -12,4 +12,5 @@ public interface SecurityService {
     public void deleteById(int id);
     public void insertSecurity(Security security);
     public String update(Security security);
+    public Security getSecurityByVoterIdEletionId(int vId,int eId);
 }

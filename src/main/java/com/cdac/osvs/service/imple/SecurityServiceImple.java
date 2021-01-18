@@ -59,6 +59,12 @@ public class SecurityServiceImple implements SecurityService{
 		
 	}
 
+	@Override
+	public Security getSecurityByVoterIdEletionId(int vId, int eId) {
+		
+		return SecurityRepo.getSecurityDetails(vId, eId);
+	}
+
 	
 
 }

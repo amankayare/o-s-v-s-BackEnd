@@ -21,6 +21,8 @@ public class Candidate {
 	@Column(name = "email",nullable = false,unique = true)
 	private String email;
 	
+	@Column(name = "adharCardNo",nullable = false,unique = true)
+	private long adharNo;
 	@Column(name = "symbol",nullable = false)
 	private String symbol;
 	
@@ -77,13 +79,19 @@ public class Candidate {
 		this.voteEarned = voteEarned;
 	}
 	
-	
-	
 	public Set<Election> getCandidateElectionList() {
 		return candidateElectionList;
 	}
 	public void setCandidateElectionList(Set<Election> candidateElectionList) {
 		this.candidateElectionList = candidateElectionList;
+	}
+	
+	
+	public long getAdharNo() {
+		return adharNo;
+	}
+	public void setAdharNo(long adharNo) {
+		this.adharNo = adharNo;
 	}
 	@Override
 	public String toString() {
