@@ -1,5 +1,7 @@
 package com.cdac.osvs.dto;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +39,7 @@ public class Election {
 	@Column(name = "organization_id")
 	private String organization_id;
 
-	@Column(name = "cin")
+	@Column(name = "cin" )
 	private String cin;
 
 	public Election() {
