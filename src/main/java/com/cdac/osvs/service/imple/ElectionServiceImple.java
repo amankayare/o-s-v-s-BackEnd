@@ -103,7 +103,11 @@ public class ElectionServiceImple  implements ElectionService{
 				File encryptedEmailShare =  EncryptImage.doEncrypt(emailShare,randomKey);
 				securityService.insertSecurity(security);
 
-				emailService.sendMessageWithAttachment("amankayare@gmail.com","testing subject" , "hello",encryptedEmailShare);
+				for (Voter voter2 :voterList) {
+					emailService.sendMessageWithAttachment(voter2.getEmail(),voter2.getFullName() ,encryptedEmailShare);
+					//emailService.sendMessageForVoterRegister(voter2.getEmail(),voter2.getFullName());
+
+				}
 
 			}catch (Exception e){
 				e.printStackTrace();
