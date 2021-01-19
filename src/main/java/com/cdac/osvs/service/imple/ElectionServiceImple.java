@@ -125,7 +125,7 @@ public class ElectionServiceImple implements ElectionService {
                 exception.printStackTrace();
             }
            */
-            String shareOneFinalPath =shareOnePath +"\\"+randomShareName+00+ ".png";
+            String shareOneFinalPath =shareOnePath +"\\"+randomShareName+"-00"+".png";
 
 
             //inserting all security related things into database
