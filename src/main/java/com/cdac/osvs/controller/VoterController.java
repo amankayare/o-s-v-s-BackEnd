@@ -83,10 +83,15 @@ public class VoterController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
 
     public String fileToDecryt(@RequestParam(value = "decrytFile") MultipartFile file,
-                               @RequestParam(value = "electionId") int eId,
-                               @RequestParam(value = "voterId") int vId) {
+                               @RequestParam(value = "electionId") int electionId,
+                               @RequestParam(value = "voterId") int voterId) {
 
         try {
+
+            Security security = securityService.getSecurityByVoterIdEletionId(voterId, electionId);
+            int keyValue = security.getKeyValue();
+            String shareOnePath = security.getShareoneImg();
+            String originalPath = security.getOrignalImg();
 
 
             byte[] byteArr = file.getBytes();
@@ -97,33 +102,22 @@ public class VoterController {
             fos.write(file.getBytes());
             fos.close();
 
-            Security security = securityService.getSecurityByVoterIdEletionId(vId, eId);
-
-            int keyValue = security.getKeyValue();
 
             File decryptedShareTwo = DecrytImage.doDecrypt(convFile, keyValue);
 
 
-            String shareOneByte = security.getShareoneImg();
-            System.out.println("1");
-
-
-            File shareOne = new File(RandomUtil.uploadDirectory + "shareOne.png");
+            File shareOne = new File(shareOnePath);
 
             //  FileUtils.writeByteArrayToFile(shareOne, shareOneByte);
 
 
-            System.out.println("2");
-
-            File orignalImage = new File(RandomUtil.uploadDirectory + "orignalImage.png");
+            File orignalImage = new File(originalPath);
 
             //  FileUtils.writeByteArrayToFile(orignalImage, security.getOrignalImg());
 
-            System.out.println("3");
 
             File mergedFile = MergeImage.merge(shareOne, decryptedShareTwo);
 
-            System.out.println("114");
 
             Boolean isSame = CompareImage.isEqual(orignalImage, mergedFile);
 
@@ -137,7 +131,10 @@ public class VoterController {
                 return "Failed";
             }
         } catch (Exception e) {
-            return e.getMessage();
+
+            System.out.println(e.getMessage());
+            return "Failed";
+
         }
     }
 }
