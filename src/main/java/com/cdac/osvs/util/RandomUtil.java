@@ -27,7 +27,7 @@ public class RandomUtil {
     public static final String shareOneUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\ShareOne\\";
 
 
-    public static File generateRamdomImage(String fileName) {
+    public static File generateRamdomImage(String fileName,String originalPath) {
 
         //   System.out.println("main1");
 
@@ -43,7 +43,7 @@ public class RandomUtil {
         System.out.println("34");
         // pass image to browser
         //response.setContentType("image/jpeg");
-        File outputfile = new File(uploadDirectory + fileName + ".png");
+        File outputfile = new File(originalPath +"\\"+ fileName + ".png");
         //	ImageIO.write(image, "jpg", response.getOutputStream());
 
 

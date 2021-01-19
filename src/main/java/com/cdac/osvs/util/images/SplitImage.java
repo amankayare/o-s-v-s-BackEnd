@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SplitImage {
 
-	public static ArrayList<File> breakImage(File file) {
+	public static ArrayList<File> breakImage(File file ,String shareOnePath,String randomFileName) {
 		ArrayList<File> files=new ArrayList<File>();
 	try {
 			
@@ -40,9 +40,9 @@ public class SplitImage {
 			for (int j = 0; j < col; j++) {
 				try {
 					System.out.println("creating piece: "+i+" "+j);
-					
+
 					BufferedImage SubImgage = originalImgage.getSubimage(y, x, eWidth, eHeight);
-					File outputfile = new File(RandomUtil.uploadDirectory +i+j+".png");
+					File outputfile = new File(shareOnePath+"\\"+randomFileName+"-"+i+j+".png");
 					//File[i]=outputfile;
 					ImageIO.write(SubImgage, "png", outputfile);
 					files.add(outputfile);

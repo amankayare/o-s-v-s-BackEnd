@@ -92,52 +92,30 @@ public class ElectionServiceImple implements ElectionService {
 
             //* Random image (original random image generation) *//
             String randomImageName = RandomUtil.generatingRandomAlphanumericFileName();
-            File file = RandomUtil.generateRamdomImage(randomImageName);
-
-            // save original image on file system and save path into database
-            byte[] originalfile = new byte[(int) file.length()];
             String originalPath = RandomUtil.originalUploadDirectory+ voter.getAdharNo();
 
-            Boolean a = new File(originalPath).mkdirs();
-            String originalFinalPath =originalPath +"\\"+ voter.getAdharNo() + ".png";
-            if (a) {
-                System.out.println("yes");
-
-                Path fileNameAndPath = Paths.get(originalPath + "/", voter.getAdharNo() + ".png");
-
-                try {
-                    Files.write(fileNameAndPath, originalfile);
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+            new File(originalPath).mkdirs();
 
 
-            } else {
-                System.out.println("NO");
-                Path fileNameAndPath = Paths.get(originalPath + "/", voter.getAdharNo() + ".png");
-
-                try {
-                    Files.write(fileNameAndPath, originalfile);
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+            // save original image on file system and save path into database
+            String originalFinalPath = originalPath +"\\"+ randomImageName + ".png";
+            File file = RandomUtil.generateRamdomImage(randomImageName,originalPath);
 
 
 
-
-            }
 
             //*spliting the original image and saving the share one into file System*//
-
-            ArrayList<File> splitedFiles = SplitImage.breakImage(file);
-            System.out.println("No of images:..........." + splitedFiles.size());
-            byte[] databaseShare = new byte[(int) splitedFiles.get(0).getName().length()];
-
             String shareOnePath = RandomUtil.shareOneUploadDirectory+voter.getAdharNo();
+            new File(shareOnePath).mkdirs();
+            String randomShareName = RandomUtil.generatingRandomAlphanumericFileName();
 
-            Path fileNameAndPath = Paths.get(shareOnePath + "/", voter.getAdharNo() + ".png");
+            ArrayList<File> splitedFiles = SplitImage.breakImage(file,shareOnePath,randomShareName);
+            System.out.println("No of images:..........." + splitedFiles.size());
+            //byte[] databaseShare = new byte[(int) splitedFiles.get(0).getName().length()];
+
+
+           /* Path fileNameAndPath = Paths.get(shareOnePath + "/", voter.getAdharNo() + ".png");
             Boolean b = new File(shareOnePath).mkdirs();
-
             File f = splitedFiles.get(0);
             byte[] shareOneFile = new byte[(int) f.length()];
 
@@ -146,8 +124,8 @@ public class ElectionServiceImple implements ElectionService {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-
-            String shareOneFinalPath =shareOnePath +"\\"+ voter.getAdharNo() + ".png";
+           */
+            String shareOneFinalPath =shareOnePath +"\\"+randomShareName+00+ ".png";
 
 
             //inserting all security related things into database
