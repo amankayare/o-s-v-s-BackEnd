@@ -20,25 +20,25 @@ public class OrganizationServiceImple implements OrganizationService {
         Organization organization = null;
         organization = organizationRepo.getAlreadyExistOrganization(org.getCin());
 
-        if(organization == null){
+        if (organization == null) {
             organizationRepo.save(org);
-        }else{
-            System.out.println("Else .."+organization);
+        } else {
+            System.out.println("Else .." + organization);
             org.setId(organization.getId());
             updateOrganization(org);
         }
-      //  organizationRepo.save(org);
+        //  organizationRepo.save(org);
 
     }
 
     @Override
     public void updateOrganization(Organization org) {
         Optional<Organization> opt = organizationRepo.findById(org.getId());
-    if(opt.isPresent()){
-        System.out.println("opt.isPresent() ..");
+        if (opt.isPresent()) {
+            System.out.println("opt.isPresent() ..");
 
-        organizationRepo.save(org);
-    }
+            organizationRepo.save(org);
+        }
 
     }
 

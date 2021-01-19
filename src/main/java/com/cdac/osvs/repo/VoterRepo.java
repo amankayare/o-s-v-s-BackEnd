@@ -11,7 +11,7 @@ import com.cdac.osvs.dto.Voter;
 
 
 @Repository
-public interface VoterRepo extends JpaRepository<Voter,Integer> {
+public interface VoterRepo extends JpaRepository<Voter, Integer> {
 
 
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrganizationRepo extends JpaRepository<Organization,Integer> {
+public interface OrganizationRepo extends JpaRepository<Organization, Integer> {
 
     @Query("select o from Organization o where o.cin = :cinNo")
     public Organization getAlreadyExistOrganization(String cinNo);

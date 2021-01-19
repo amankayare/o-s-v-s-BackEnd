@@ -8,14 +8,14 @@ import org.springframework.context.annotation.ComponentScan;
 import java.io.File;
 
 @SpringBootApplication
-@ComponentScan({"com.cdac.osvs","controller"})
+@ComponentScan({"com.cdac.osvs", "controller"})
 public class OsvsApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-	   new File(RandomUtil.uploadDirectory).mkdir();
-	   
+        new File(RandomUtil.uploadDirectory).mkdir();
 
-		SpringApplication.run(OsvsApplication.class, args);
-	}
+
+        SpringApplication.run(OsvsApplication.class, args);
+    }
 }

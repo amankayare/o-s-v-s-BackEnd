@@ -17,48 +17,46 @@ import com.cdac.osvs.dto.Admin;
 import com.cdac.osvs.service.AdminService;
 
 
-
-
 @RestController
 @RequestMapping("/api/")
 public class AdminController {
-	  
-		@Autowired
-		public AdminService adminService;
-		
-		
-		@CrossOrigin(origins = "*")
-		@PostMapping(path = "addAdmin", consumes = "application/json", produces = "application/json")
-		public String addAdmin(@RequestBody Admin admin) {
-			 adminService.insertAdmin(admin);
-			return "Success";
-		}
-		
-		@CrossOrigin(origins = "*")
-		@PutMapping(path ="modifyAdmin", consumes = "application/json", produces = "application/json")
-		public String modifyAdmin(@RequestBody Admin admin) {
-		String data= adminService.update(admin);
-			return data;
-		}
-		
-		@CrossOrigin(origins = "*")
-		@DeleteMapping(path = "removeAdmin/{id}", consumes = "application/json", produces = "application/json")
-		public String removeAdmin(@PathVariable Integer id) {
-			 adminService.deleteById(id);
-			return "Success";
-		}
-		
-		@CrossOrigin(origins = "*")
-		@GetMapping(path ="getAdmin/{id}", consumes = "application/json", produces = "application/json")
-		public Admin getAdmin(@PathVariable Integer id) {
-			
-			return  adminService.selectById(id);
-		}
-		
-		@CrossOrigin(origins = "*")
-		@GetMapping(path = "getAllAdmin", produces = "application/json")
-		public List<Admin> getAllAdmin() {
-			
-			return  adminService.selectAllAdmin();
-		}
+
+    @Autowired
+    public AdminService adminService;
+
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "addAdmin", consumes = "application/json", produces = "application/json")
+    public String addAdmin(@RequestBody Admin admin) {
+        adminService.insertAdmin(admin);
+        return "Success";
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(path = "modifyAdmin", consumes = "application/json", produces = "application/json")
+    public String modifyAdmin(@RequestBody Admin admin) {
+        String data = adminService.update(admin);
+        return data;
+    }
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping(path = "removeAdmin/{id}", consumes = "application/json", produces = "application/json")
+    public String removeAdmin(@PathVariable Integer id) {
+        adminService.deleteById(id);
+        return "Success";
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "getAdmin/{id}", consumes = "application/json", produces = "application/json")
+    public Admin getAdmin(@PathVariable Integer id) {
+
+        return adminService.selectById(id);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "getAllAdmin", produces = "application/json")
+    public List<Admin> getAllAdmin() {
+
+        return adminService.selectAllAdmin();
+    }
 }

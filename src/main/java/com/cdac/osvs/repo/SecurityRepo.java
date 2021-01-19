@@ -9,10 +9,10 @@ import com.cdac.osvs.dto.Security;
 
 
 @Repository
-public interface SecurityRepo extends JpaRepository<Security,Integer> {
+public interface SecurityRepo extends JpaRepository<Security, Integer> {
 
-	
-	@Query("select s from Security s where s.voterId=:voterId and s.electionId=:electionId")
-	public Security getSecurityDetails(@Param(value = "voterId") int vId,@Param(value = "electionId") int eId);
-	
+
+    @Query("select s from Security s where s.voterId=:voterId and s.electionId=:electionId")
+    public Security getSecurityDetails(@Param(value = "voterId") int vId, @Param(value = "electionId") int eId);
+
 }

@@ -12,59 +12,57 @@ import com.cdac.osvs.repo.SecurityRepo;
 import com.cdac.osvs.service.SecurityService;
 
 
-
 @Service
-public class SecurityServiceImple implements SecurityService{
+public class SecurityServiceImple implements SecurityService {
 
-	@Autowired
-	private SecurityRepo SecurityRepo;
-	
-	@Override
-	public List<Security> selectAllSecurity() {
-		List<Security> list=SecurityRepo.findAll();
-		return list;
-	}
+    @Autowired
+    private SecurityRepo SecurityRepo;
 
-	@Override
-	public Security selectById(int id) {
-		Optional<Security> opt=SecurityRepo.findById(id);
-		
-		return opt.get();
-	}
+    @Override
+    public List<Security> selectAllSecurity() {
+        List<Security> list = SecurityRepo.findAll();
+        return list;
+    }
 
-	@Override
-	public void deleteById(int id) {
-		SecurityRepo.deleteById(id);
-		
-	}
+    @Override
+    public Security selectById(int id) {
+        Optional<Security> opt = SecurityRepo.findById(id);
 
-	@Override
-	public void insertSecurity(Security security) {
-		SecurityRepo.save(security);
-		
-		
-	}
+        return opt.get();
+    }
 
-	@Override
-	public String update(Security security)  {
-		
-	Optional<Security> pt=	SecurityRepo.findById(security.getSecurityId());
-	
-	if(pt.isPresent()) {
-		SecurityRepo.save(security);
-	    return "Security is updated";
-	}else {
-		 return "Security is not found";
-	}
-		
-	}
+    @Override
+    public void deleteById(int id) {
+        SecurityRepo.deleteById(id);
 
-	@Override
-	public Security getSecurityByVoterIdEletionId(int vId, int eId) {
-		
-		return SecurityRepo.getSecurityDetails(vId, eId);
-	}
+    }
 
-	
+    @Override
+    public void insertSecurity(Security security) {
+        SecurityRepo.save(security);
+
+
+    }
+
+    @Override
+    public String update(Security security) {
+
+        Optional<Security> pt = SecurityRepo.findById(security.getSecurityId());
+
+        if (pt.isPresent()) {
+            SecurityRepo.save(security);
+            return "Security is updated";
+        } else {
+            return "Security is not found";
+        }
+
+    }
+
+    @Override
+    public Security getSecurityByVoterIdEletionId(int vId, int eId) {
+
+        return SecurityRepo.getSecurityDetails(vId, eId);
+    }
+
 
 }

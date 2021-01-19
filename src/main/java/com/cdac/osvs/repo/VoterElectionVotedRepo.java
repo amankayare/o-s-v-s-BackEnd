@@ -10,11 +10,11 @@ import com.cdac.osvs.dto.Voter_Election_Voted;
 
 public interface VoterElectionVotedRepo extends JpaRepository<Voter_Election_Voted, Integer> {
 
-	
-	@Modifying
-	@Transactional
-	@Query("update Voter_Election_Voted v set v.isVoted=:voted where v.voterId=:vId and v.electionId=:eId")
-	public void voted(@Param("voted") int voted,@Param("eId") int eId,@Param("vId") int vId);
-	
-	
+
+    @Modifying
+    @Transactional
+    @Query("update Voter_Election_Voted v set v.isVoted=:voted where v.voterId=:vId and v.electionId=:eId")
+    public void voted(@Param("voted") int voted, @Param("eId") int eId, @Param("vId") int vId);
+
+
 }

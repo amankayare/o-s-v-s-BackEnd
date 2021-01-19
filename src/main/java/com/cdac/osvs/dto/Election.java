@@ -11,125 +11,123 @@ import javax.persistence.*;
 @Table(name = "election")
 public class Election {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "election_id")
-	private int electionId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "election_id")
+    private int electionId;
 
 
-	private String electionName;
-	
-	@Column(name = "start_Date")
-	private String startDate;
-	
-	@Column(name = "end_Date")
-	private String endDate;
-	
-	@Column(name = "result_Date")
-	private String resultDate;
+    private String electionName;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="election_voter")
-	private Set<Voter> voterList = new HashSet<>();
+    @Column(name = "start_Date")
+    private String startDate;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="election_candidate")
-	private Set<Candidate> candidateList = new HashSet<>();
+    @Column(name = "end_Date")
+    private String endDate;
 
-	@Column(name = "organization_id")
-	private String organization_id;
+    @Column(name = "result_Date")
+    private String resultDate;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "election_voter")
+    private Set<Voter> voterList = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "election_candidate")
+    private Set<Candidate> candidateList = new HashSet<>();
+
+    @Column(name = "organization_id")
+    private String organization_id;
 
 
-	@Column(name = "cin" )
-	@ColumnDefault(value="0")
-	private String cin;
+    @Column(name = "cin")
+    @ColumnDefault(value = "0")
+    private String cin;
 
-	public Election() {
-		super();
-		
-	}
+    public Election() {
+        super();
 
-	public int getElectionId() {
-		return electionId;
-	}
+    }
 
-	public void setElectionId(int electionId) {
-		this.electionId = electionId;
-	}
+    public int getElectionId() {
+        return electionId;
+    }
 
-	
+    public void setElectionId(int electionId) {
+        this.electionId = electionId;
+    }
 
-	public String getElectionName() {
-		return electionName;
-	}
 
-	public void setElectionName(String electionName) {
-		this.electionName = electionName;
-	}
+    public String getElectionName() {
+        return electionName;
+    }
 
-	public String getStartDate() {
-		return startDate;
-	}
+    public void setElectionName(String electionName) {
+        this.electionName = electionName;
+    }
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    public String getStartDate() {
+        return startDate;
+    }
 
-	public String getEndDate() {
-		return endDate;
-	}
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
+    public String getEndDate() {
+        return endDate;
+    }
 
-	public String getResultDate() {
-		return resultDate;
-	}
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
-	public void setResultDate(String resultDate) {
-		this.resultDate = resultDate;
-	}
+    public String getResultDate() {
+        return resultDate;
+    }
 
-	public Set<Voter> getVoterList() {
-		return voterList;
-	}
+    public void setResultDate(String resultDate) {
+        this.resultDate = resultDate;
+    }
 
-	public void setVoterList(Set<Voter> voterList) {
-		this.voterList = voterList;
-	}
+    public Set<Voter> getVoterList() {
+        return voterList;
+    }
 
-	public Set<Candidate> getCandidateList() {
-		return candidateList;
-	}
+    public void setVoterList(Set<Voter> voterList) {
+        this.voterList = voterList;
+    }
 
-	public void setCandidateList(Set<Candidate> candidateList) {
-		this.candidateList = candidateList;
-	}
+    public Set<Candidate> getCandidateList() {
+        return candidateList;
+    }
 
-	public String getOrganization_id() {
-		return organization_id;
-	}
+    public void setCandidateList(Set<Candidate> candidateList) {
+        this.candidateList = candidateList;
+    }
 
-	public void setOrganization_id(String organization_id) {
-		this.organization_id = organization_id;
-	}
+    public String getOrganization_id() {
+        return organization_id;
+    }
 
-	public String getCin() {
-		return cin;
-	}
+    public void setOrganization_id(String organization_id) {
+        this.organization_id = organization_id;
+    }
 
-	public void setCin(String cin) {
-		this.cin = cin;
-	}
+    public String getCin() {
+        return cin;
+    }
 
-	@Override
-	public String toString() {
-		return "Election [electionId=" + electionId + ", name=" + electionName + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", resultDate=" + resultDate + ", voterList=" + voterList + ", candidateList="
-				+ candidateList + ", organization_id=" + organization_id + ", cin=" + cin + "]";
-	}
+    public void setCin(String cin) {
+        this.cin = cin;
+    }
 
-	
+    @Override
+    public String toString() {
+        return "Election [electionId=" + electionId + ", name=" + electionName + ", startDate=" + startDate + ", endDate="
+                + endDate + ", resultDate=" + resultDate + ", voterList=" + voterList + ", candidateList="
+                + candidateList + ", organization_id=" + organization_id + ", cin=" + cin + "]";
+    }
+
 
 }

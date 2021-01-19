@@ -4,6 +4,7 @@ package com.cdac.osvs.controller;
 import com.cdac.osvs.dto.Organization;
 import com.cdac.osvs.service.OrganizationService;
 import com.cdac.osvs.service.VoterService;
+import com.cdac.osvs.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -27,52 +31,52 @@ public class OrganizationController {
     @CrossOrigin(origins = "*")
 
     //@PostMapping(path = "addOrganization", consumes = "application/json", produces = "application/json")
-    @PostMapping(value = "addOrganization",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE} )
+    @PostMapping(value = "addOrganization", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
 
-    public String addOrganization(@RequestParam(value="orgnizationName") String orgName,
-                                  @RequestParam(value="cin") String cin,
-                                  @RequestParam(value="excelFile") MultipartFile file
+    public String addOrganization(@RequestParam(value = "orgnizationName") String orgName,
+                                  @RequestParam(value = "cin") String cin,
+                                  @RequestParam(value = "excelFile") MultipartFile file
 
-                                 ) {
-try {
-    System.out.println("//////////////////////////");
+    ) {
+        try {
 
-    System.out.println(orgName);
-    System.out.println(cin);
-    System.out.println(file);
-    System.out.println("//////////////////////////");
-        Organization organization = new Organization();
-
-        byte[] byteArr = file.getBytes();
-
-        organization.setExcelFile(byteArr);
-        organization.setCin(cin);
-        organization.setOrgnizationName(orgName);
+            Organization organization = new Organization();
+            organization.setCin(cin);
+            organization.setOrgnizationName(orgName);
 
 
-        organizationService.insertOrganization(organization);
+            String path = RandomUtil.organizationUploadDirectory + cin;
+            Boolean a = new File(path).mkdirs();
 
 
-        File convFile = new File( file.getOriginalFilename() );
-        FileOutputStream fos = new FileOutputStream( convFile );
-        fos.write( file.getBytes() );
-        fos.close();
+            if (a) {
+                Path fileNameAndPath = Paths.get(path + "/", cin + ".xlsx");
+
+                Files.write(fileNameAndPath, file.getBytes());
+                organization.setExcelFile(path +"\\"+ cin + ".xlsx");
 
 
-        voterService.readFileAndSendEmail(convFile);
-        return "Success";
+            } else {
+                Path fileNameAndPath = Paths.get(path + "/", cin + ".xlsx");
 
-    }
-    catch(Exception e){
-           return e.getMessage();
+                Files.write(fileNameAndPath, file.getBytes());
+                organization.setExcelFile(path +"\\"+ cin + ".xlsx");
+
+            }
+
+            organizationService.insertOrganization(organization);
+            return "Success";
+
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 
     @CrossOrigin(origins = "*")
-    @PutMapping(path ="modifyOrganization", consumes = "application/json", produces = "application/json")
-    public  String modifyOrganization(@RequestBody Organization organization) {
-         organizationService.updateOrganization(organization);
+    @PutMapping(path = "modifyOrganization", consumes = "application/json", produces = "application/json")
+    public String modifyOrganization(@RequestBody Organization organization) {
+        organizationService.updateOrganization(organization);
         return "updated";
     }
 
@@ -84,23 +88,24 @@ try {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(path ="getOrganization/{id}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "getOrganization/{id}", consumes = "application/json", produces = "application/json")
     public Organization getOrganization(@PathVariable Integer id) {
 
-        return  organizationService.getOrganizationById(id);
+        return organizationService.getOrganizationById(id);
     }
+
     @CrossOrigin(origins = "*")
-    @GetMapping(path ="getOrganizationByCinNo/{id}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "getOrganizationByCinNo/{id}", consumes = "application/json", produces = "application/json")
     public Organization getOrganizationByCinNo(@PathVariable String id) {
 
-        return  organizationService.getOrganizationByCinNo(id);
+        return organizationService.getOrganizationByCinNo(id);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "getAllOrganization", consumes = "application/json", produces = "application/json")
     public List<Organization> getAllOrganization() {
 
-        return  organizationService.getAllOrganization();
+        return organizationService.getAllOrganization();
     }
 
 

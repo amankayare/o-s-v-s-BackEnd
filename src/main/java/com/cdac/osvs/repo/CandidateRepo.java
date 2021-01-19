@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cdac.osvs.dto.Candidate;
 
 @Repository
-public interface CandidateRepo extends JpaRepository<Candidate,Integer> {
-   
-	@Modifying
-	@Transactional
-	@Query("update Candidate c set c.voteEarned=:voteEarned where c.candidateId=:cId and c.electionId=:eId")
-	public void increasesVote(@Param("cId") int cId,@Param("eId") int eId,@Param("voteEarned") int voteEarned);
-	
-	
+public interface CandidateRepo extends JpaRepository<Candidate, Integer> {
+
+    @Modifying
+    @Transactional
+    @Query("update Candidate c set c.voteEarned=:voteEarned where c.candidateId=:cId and c.electionId=:eId")
+    public void increasesVote(@Param("cId") int cId, @Param("eId") int eId, @Param("voteEarned") int voteEarned);
+
+
 }

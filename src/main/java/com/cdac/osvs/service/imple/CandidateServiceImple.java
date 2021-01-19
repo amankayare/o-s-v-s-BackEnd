@@ -13,75 +13,73 @@ import com.cdac.osvs.repo.VoterRepo;
 import com.cdac.osvs.service.CandidateService;
 
 
-
 @Service
 public class CandidateServiceImple implements CandidateService {
 
-	@Autowired
-	private CandidateRepo candidateRepo;
-	
-	
-	@Autowired
-	private VoterElectionVotedRepo voterElectionVotedRepo;
-	
-	
-	@Override
-	public List<Candidate> selectAllCandidate() {
-		List<Candidate> list=candidateRepo.findAll();
-		return list;
-	}
+    @Autowired
+    private CandidateRepo candidateRepo;
 
-	@Override
-	public Candidate selectById(int id) {
-		Optional<Candidate> opt=candidateRepo.findById(id);
-		
-		return opt.get();
-	}
 
-	@Override
-	public void deleteById(int id) {
-		candidateRepo.deleteById(id);
-		
-	}
+    @Autowired
+    private VoterElectionVotedRepo voterElectionVotedRepo;
 
-	@Override
-	public void insertCandidate(Candidate candidate) {
-		candidateRepo.save(candidate);
-		
-	}
 
-	
-	@Override
-	public String update(Candidate candidate)  {
-		
-	Optional<Candidate> pt=	candidateRepo.findById(candidate.getCandidateId());
-	
-	if(pt.isPresent()) {
-		candidateRepo.save(candidate);
-	    return "Candidate is updated";
-	}else {
-		 return "Candidate is not found";
-	}
-		
-	}
+    @Override
+    public List<Candidate> selectAllCandidate() {
+        List<Candidate> list = candidateRepo.findAll();
+        return list;
+    }
 
-	@Override
-	public void addVoteEarned(int eId, int cId,int vId) {
-		int vEarned=getVoteEarned(eId,cId);
-		vEarned=vEarned+1;
-		System.out.println(vEarned);
-		
-		
-		
-		candidateRepo.increasesVote(cId, eId, vEarned);	
-		
-		voterElectionVotedRepo.voted(1, eId, vId);
-	}
+    @Override
+    public Candidate selectById(int id) {
+        Optional<Candidate> opt = candidateRepo.findById(id);
 
-	@Override
-	public int getVoteEarned(int eId, int cId) {
-		
-		return candidateRepo.getOne(cId).getVoteEarned();
-	}
+        return opt.get();
+    }
+
+    @Override
+    public void deleteById(int id) {
+        candidateRepo.deleteById(id);
+
+    }
+
+    @Override
+    public void insertCandidate(Candidate candidate) {
+        candidateRepo.save(candidate);
+
+    }
+
+
+    @Override
+    public String update(Candidate candidate) {
+
+        Optional<Candidate> pt = candidateRepo.findById(candidate.getCandidateId());
+
+        if (pt.isPresent()) {
+            candidateRepo.save(candidate);
+            return "Candidate is updated";
+        } else {
+            return "Candidate is not found";
+        }
+
+    }
+
+    @Override
+    public void addVoteEarned(int eId, int cId, int vId) {
+        int vEarned = getVoteEarned(eId, cId);
+        vEarned = vEarned + 1;
+        System.out.println(vEarned);
+
+
+        candidateRepo.increasesVote(cId, eId, vEarned);
+
+        voterElectionVotedRepo.voted(1, eId, vId);
+    }
+
+    @Override
+    public int getVoteEarned(int eId, int cId) {
+
+        return candidateRepo.getOne(cId).getVoteEarned();
+    }
 
 }
