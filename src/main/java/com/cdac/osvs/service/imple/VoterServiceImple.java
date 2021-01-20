@@ -22,31 +22,31 @@ import java.util.Iterator;
 public class VoterServiceImple implements VoterService {
 
     @Autowired
-    private VoterRepo VoterRepo;
+    private VoterRepo voterRepo;
     @Autowired
     private EmailService emailService;
 
     @Override
     public void insertVoter(Voter voter) {
-        VoterRepo.save(voter);
+        voterRepo.save(voter);
     }
 
     @Override
     public List<Voter> selectAllVoter() {
-        List<Voter> list = VoterRepo.findAll();
+        List<Voter> list = voterRepo.findAll();
         return list;
     }
 
     @Override
     public Voter selectById(int id) {
-        Optional<Voter> opt = VoterRepo.findById(id);
+ 
 
-        return opt.get();
+        return voterRepo.getOne(id);
     }
 
     @Override
     public void deleteById(int id) {
-        VoterRepo.deleteById(id);
+        voterRepo.deleteById(id);
 
     }
 
@@ -54,10 +54,10 @@ public class VoterServiceImple implements VoterService {
     @Override
     public String update(Voter voter) {
 
-        Optional<Voter> pt = VoterRepo.findById(voter.getVoterId());
+        Optional<Voter> pt = voterRepo.findById(voter.getVoterId());
 
         if (pt.isPresent()) {
-            VoterRepo.save(voter);
+            voterRepo.save(voter);
             return "Voter is updated";
         } else {
             return "Voter is not found";

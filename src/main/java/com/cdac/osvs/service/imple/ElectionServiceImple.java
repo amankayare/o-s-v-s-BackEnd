@@ -52,9 +52,9 @@ public class ElectionServiceImple implements ElectionService {
 
     @Override
     public Election selectById(int id) {
-        Optional<Election> opt = electionRepo.findById(id);
+       // Optional<Election> opt = electionRepo.findById(id);
 
-        return opt.get();
+        return electionRepo.getOne(id);
     }
 
     @Override

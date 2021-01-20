@@ -32,9 +32,9 @@ public class CandidateServiceImple implements CandidateService {
 
     @Override
     public Candidate selectById(int id) {
-        Optional<Candidate> opt = candidateRepo.findById(id);
+    //    Optional<Candidate> opt = candidateRepo.findById(id);
 
-        return opt.get();
+        return candidateRepo.getOne(id);
     }
 
     @Override
