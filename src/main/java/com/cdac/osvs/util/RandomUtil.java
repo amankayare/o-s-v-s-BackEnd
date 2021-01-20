@@ -1,11 +1,14 @@
 package com.cdac.osvs.util;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -16,11 +19,19 @@ public class RandomUtil {
 
     public static final int WIDTH = 600;
     public static final int HEIGHT = 500;
-    public static final  String uploadDirectory = System.getProperty("user.dir")+"\\src\\main\\resources\\uploads\\";
+    public static final String uploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\";
+    public static final String candidateUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Candidate\\";
+    public static final String voterUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Voter\\";
+    public static final String organizationUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Organization\\";
+    public static final String originalUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Original\\";
+    public static final String shareOneUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\ShareOne\\";
+    public static final String compareUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Compare\\";
+    public static final String mergeUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Merge\\";
 
-    public static File generateRamdomImage(String fileName) {
 
-     //   System.out.println("main1");
+    public static File generateRamdomImage(String fileName,String originalPath) {
+
+        //   System.out.println("main1");
 
         BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
@@ -34,7 +45,7 @@ public class RandomUtil {
         System.out.println("34");
         // pass image to browser
         //response.setContentType("image/jpeg");
-        File outputfile = new File(uploadDirectory+fileName+".png");
+        File outputfile = new File(originalPath +"\\"+ fileName + ".png");
         //	ImageIO.write(image, "jpg", response.getOutputStream());
 
 
@@ -52,12 +63,12 @@ public class RandomUtil {
     private static void drawRandomNumber(Graphics2D g) {
         System.out.println("50");
         g.setColor(Color.BLUE);
-        g.setFont(new Font("",Font.BOLD, 60));
+        g.setFont(new Font("", Font.BOLD, 60));
 
         for (int i = 0; i < 6; i++) {
-            int degree = new Random().nextInt()%30; 	// can be +-
+            int degree = new Random().nextInt() % 30;    // can be +-
             //g.rotate(degree*Math.PI/180, 1, HEIGHT);
-            g.drawString(String.valueOf(new Random().nextInt(10)),WIDTH-100*i, HEIGHT-250);
+            g.drawString(String.valueOf(new Random().nextInt(10)), WIDTH - 100 * i, HEIGHT - 250);
             //g.rotate(-degree*Math.PI/180, 1, HEIGHT);
         }
     }
@@ -65,7 +76,7 @@ public class RandomUtil {
     private static void setBorder(Graphics g) {
         System.out.println("62");
         g.setColor(Color.BLACK);
-        g.drawRect(1, 1, WIDTH-2, HEIGHT-2);
+        g.drawRect(1, 1, WIDTH - 2, HEIGHT - 2);
     }
 
     private static void setBackground(Graphics g) {
@@ -85,6 +96,7 @@ public class RandomUtil {
             g.drawLine(x1, y1, x2, y2);
         }
     }
+
     public static String generatingRandomAlphanumericFileName() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
@@ -100,8 +112,19 @@ public class RandomUtil {
         return generatedString;
     }
 
-    public static int getRandomNumberUsingNextInt(int min, int max) {
+//    public static int getRandomNumberUsingNextInt(int min, int max) {
+//        Random random = new Random();
+//        return random.nextInt(max - min) + min;
+//    }
+//    
+
+    public static int generateRandom(int length) {
+        int min = (int) Math.pow(10, length - 1);
+        int max = (int) Math.pow(10, length); // bound is exclusive
         Random random = new Random();
+
         return random.nextInt(max - min) + min;
     }
+
+
 }

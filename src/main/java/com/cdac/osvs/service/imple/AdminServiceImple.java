@@ -11,50 +11,49 @@ import com.cdac.osvs.repo.AdminRepo;
 import com.cdac.osvs.service.AdminService;
 
 
-
 @Service
-public class AdminServiceImple implements AdminService{
+public class AdminServiceImple implements AdminService {
 
-	@Autowired
-	private AdminRepo AdminRepo;
-	
-	@Override
-	public List<Admin> selectAllAdmin() {
-		List<Admin> list=AdminRepo.findAll();
-		return list;
-	}
+    @Autowired
+    private AdminRepo AdminRepo;
 
-	@Override
-	public Admin selectById(int id) {
-		Optional<Admin> opt=AdminRepo.findById(id);
-		
-		return opt.get();
-	}
+    @Override
+    public List<Admin> selectAllAdmin() {
+        List<Admin> list = AdminRepo.findAll();
+        return list;
+    }
 
-	@Override
-	public void deleteById(int id) {
-		AdminRepo.deleteById(id);
-		
-	}
+    @Override
+    public Admin selectById(int id) {
+        Optional<Admin> opt = AdminRepo.findById(id);
 
-	@Override
-	public void insertAdmin(Admin admin) {
-		AdminRepo.save(admin);
-		
-	}
+        return opt.get();
+    }
 
-	@Override
-	public String update(Admin admin) {
-		
-	Optional<Admin> pt=	AdminRepo.findById(admin.getAdminId());
-	
-	if(pt.isPresent()) {
-		AdminRepo.save(admin);
-	    return "Admin is updated";
-	}else {
-		 return "Admin is not found";
-	}
-		
-	}
+    @Override
+    public void deleteById(int id) {
+        AdminRepo.deleteById(id);
+
+    }
+
+    @Override
+    public void insertAdmin(Admin admin) {
+        AdminRepo.save(admin);
+
+    }
+
+    @Override
+    public String update(Admin admin) {
+
+        Optional<Admin> pt = AdminRepo.findById(admin.getAdminId());
+
+        if (pt.isPresent()) {
+            AdminRepo.save(admin);
+            return "Admin is updated";
+        } else {
+            return "Admin is not found";
+        }
+
+    }
 
 }

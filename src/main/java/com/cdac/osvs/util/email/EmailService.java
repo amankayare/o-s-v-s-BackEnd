@@ -18,18 +18,21 @@ public class EmailService {
     @Value("${email.voting.subject}")
     String votingSubject;
 
-     ;
+    ;
     @Value("${email.voter.register.subject}")
     String voterRegistration;
 
     @Value("${angular.port}")
     String angularPort;
 
+    @Value("${email.candidate.register.subject}")
+    String candidateRegistration;
 
-    public void sendMessageWithAttachment(String to,String name ,File attachmentFile) throws  Exception{
+
+    public void sendMessageWithAttachment(String to, String name, File attachmentFile) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "Hiii "+name;
+        String text = "Hiii " + name;
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -45,10 +48,12 @@ public class EmailService {
 
 
     }
-    public void  sendMessageForVoterRegister(String to,String name) throws  Exception{
+
+
+    public void sendMessageForVoterRegister(String to, String name) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "http://localhost:"+angularPort+"/E-Bellot/api/addVoter/";
+        String text = "http://localhost:" + angularPort + "/E-Bellot/api/addVoter/";
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -58,10 +63,24 @@ public class EmailService {
         helper.setText(text);
 
 
+        emailSender.send(message);
+    }
+
+
+    public void sendMessageForCandidateRegister(String to, String name) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+
+        String text = "http://localhost:" + angularPort + "/E-Bellot/api/addCandidate/";
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("eballotonlinevotingsystem@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(candidateRegistration);
+        helper.setText(text);
+
 
         emailSender.send(message);
-
-
     }
 
 }

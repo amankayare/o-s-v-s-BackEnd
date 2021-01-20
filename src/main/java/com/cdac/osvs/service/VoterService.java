@@ -7,10 +7,18 @@ import com.cdac.osvs.dto.Voter;
 
 
 public interface VoterService {
-     public List<Voter> selectAllVoter();
-     public Voter selectById(int id);
-     public void deleteById(int id);
-     public void insertVoter(Voter voter);
-     public String update(Voter voter);
-     public void readFileAndSendEmail(File excelFile);
+    public List<Voter> selectAllVoter();
+
+    public Voter selectById(int id);
+
+    public void deleteById(int id);
+
+    public Boolean insertVoter(Voter voter);
+
+    public String update(Voter voter);
+
+    public void readFileAndSendEmail(File excelFile);
+
+    public Voter checkLoginStatus(long adharNo , String Password);
+
 }

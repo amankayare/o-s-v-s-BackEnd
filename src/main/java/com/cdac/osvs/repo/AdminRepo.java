@@ -7,6 +7,6 @@ import com.cdac.osvs.dto.Admin;
 
 
 @Repository
-public interface AdminRepo extends JpaRepository<Admin,Integer> {
+public interface AdminRepo extends JpaRepository<Admin, Integer> {
 
 }
