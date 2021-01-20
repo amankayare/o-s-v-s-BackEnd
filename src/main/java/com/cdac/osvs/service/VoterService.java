@@ -13,9 +13,12 @@ public interface VoterService {
 
     public void deleteById(int id);
 
-    public void insertVoter(Voter voter);
+    public Boolean insertVoter(Voter voter);
 
     public String update(Voter voter);
 
     public void readFileAndSendEmail(File excelFile);
+
+    public Voter checkLoginStatus(long adharNo , String Password);
+
 }

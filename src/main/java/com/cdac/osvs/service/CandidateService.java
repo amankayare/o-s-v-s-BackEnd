@@ -12,7 +12,7 @@ public interface CandidateService {
 
     public void deleteById(int id);
 
-    public void insertCandidate(Candidate candidate);
+    public Boolean insertCandidate(Candidate candidate);
 
     public String update(Candidate candidate);
 

@@ -27,7 +27,6 @@ public class Voter {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "EmployeeId")
     private String EmployeeId;
 
 

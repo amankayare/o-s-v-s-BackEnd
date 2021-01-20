@@ -27,8 +27,16 @@ public class VoterServiceImple implements VoterService {
     private EmailService emailService;
 
     @Override
-    public void insertVoter(Voter voter) {
-        voterRepo.save(voter);
+    public Boolean insertVoter(Voter voter) {
+
+        Voter voterIsalreadyPresent = voterRepo.voterIsAlreadyRegistered(voter.getAdharNo(), voter.getEmail());
+
+        if (voterIsalreadyPresent == null) {
+            voterRepo.save(voter);
+            return true;
+        }
+        return false;
+
     }
 
     @Override
@@ -39,8 +47,7 @@ public class VoterServiceImple implements VoterService {
 
     @Override
     public Voter selectById(int id) {
- 
-
+    	
         return voterRepo.getOne(id);
     }
 
@@ -157,6 +164,13 @@ public class VoterServiceImple implements VoterService {
 
 
     }
+
+    @Override
+    public Voter checkLoginStatus(long adharNo, String password) {
+        return voterRepo.voterIsPresent(adharNo, password);
+    }
+
+
     //Iterating over Rows and Columns using for-each loop
 }
 
