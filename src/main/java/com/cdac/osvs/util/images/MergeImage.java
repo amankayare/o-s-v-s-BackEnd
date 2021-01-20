@@ -19,7 +19,9 @@ public class MergeImage {
 
         BufferedImage joinedImg = joinBufferedImage(img1, img2);
 
-        File fileJoined = new File(RandomUtil.uploadDirectory + "joined.png");
+        new File(RandomUtil.mergeUploadDirectory).mkdirs();
+        String RandomFIleName = RandomUtil.generatingRandomAlphanumericFileName();
+        File fileJoined = new File(RandomUtil.mergeUploadDirectory +RandomFIleName +".png");
 
         ImageIO.write(joinedImg, "png", fileJoined);
 

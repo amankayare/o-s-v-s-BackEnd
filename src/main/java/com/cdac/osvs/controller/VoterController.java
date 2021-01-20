@@ -95,9 +95,9 @@ public class VoterController {
 
 
             byte[] byteArr = file.getBytes();
-
-
-            File convFile = new File(file.getOriginalFilename());
+            String randomFileName = RandomUtil.generatingRandomAlphanumericFileName();
+            new File(RandomUtil.compareUploadDirectory).mkdirs();
+            File convFile = new File(RandomUtil.compareUploadDirectory+randomFileName+".png");
             FileOutputStream fos = new FileOutputStream(convFile);
             fos.write(file.getBytes());
             fos.close();

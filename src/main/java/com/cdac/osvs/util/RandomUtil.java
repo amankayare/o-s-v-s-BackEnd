@@ -25,6 +25,8 @@ public class RandomUtil {
     public static final String organizationUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Organization\\";
     public static final String originalUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Original\\";
     public static final String shareOneUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\ShareOne\\";
+    public static final String compareUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Compare\\";
+    public static final String mergeUploadDirectory = System.getProperty("user.dir") + "\\src\\main\\resources\\uploads\\Merge\\";
 
 
     public static File generateRamdomImage(String fileName,String originalPath) {
