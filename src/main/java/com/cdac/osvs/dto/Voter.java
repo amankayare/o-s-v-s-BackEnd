@@ -27,20 +27,12 @@ public class Voter {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public String getPassword() {
-        return password;
-    }
+    private String employeeId;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    private String EmployeeId;
 
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "voterList")
     private Set<Election> voterElectionList = new HashSet<>();
-
 
     public int getVoterId() {
         return voterId;
@@ -74,6 +66,22 @@ public class Voter {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
     public Set<Election> getVoterElectionList() {
         return voterElectionList;
     }
@@ -82,18 +90,16 @@ public class Voter {
         this.voterElectionList = voterElectionList;
     }
 
-    public String getEmployeeId() {
-        return EmployeeId;
-    }
-
-    public void setEmployeeId(String employeeId) {
-        EmployeeId = employeeId;
-    }
-
     @Override
     public String toString() {
-        return "Voter [voterId=" + voterId + ", fullName=" + fullName + ", adharNo=" + adharNo + ", voted="
-                + ", email=" + email + ", electionId=";
+        return "Voter{" +
+                "voterId=" + voterId +
+                ", fullName='" + fullName + '\'' +
+                ", adharNo=" + adharNo +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", voterElectionList=" + voterElectionList +
+                '}';
     }
-
 }

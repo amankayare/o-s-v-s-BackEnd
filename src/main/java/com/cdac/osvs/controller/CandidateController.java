@@ -70,10 +70,9 @@ public class CandidateController {
 
                 candidate.setSymbol(path + "\\" + adharNo + ".png");
 
-                candidateService.insertCandidate(candidate);
 
 
-                Boolean saved = candidateService.insertCandidate(candidate);
+                Boolean saved  = candidateService.insertCandidate(candidate);
 
                 if (saved) {
                     return "Success";

@@ -46,10 +46,11 @@ public class CandidateServiceImple implements CandidateService {
     @Override
     public Boolean insertCandidate(Candidate candidate) {
 
-        Candidate candidateIsAlreadyRegistered = candidateRepo.candidateIsAlreadyRegistered(candidate.getAdharNo(), candidate.getEmail());
+        Candidate candidateIsAlreadyRegistered     = candidateRepo.candidateIsAlreadyRegistered(candidate.getAdharNo(), candidate.getEmail());
        if(candidateIsAlreadyRegistered == null){
            candidateRepo.save(candidate);
            System.out.println("candidate was not present so inserting...");
+
             return true;
        }else {
            System.out.println("candidate is already present");
