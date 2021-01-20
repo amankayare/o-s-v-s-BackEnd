@@ -24,10 +24,11 @@ public class Voter {
     private String email;
 
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     private String employeeId;
+
 
 
 
@@ -90,7 +91,16 @@ public class Voter {
         this.voterElectionList = voterElectionList;
     }
 
-    @Override
+    
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
     public String toString() {
         return "Voter{" +
                 "voterId=" + voterId +

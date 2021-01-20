@@ -37,8 +37,7 @@ public class OrganizationController {
     public String addOrganization(@RequestParam(value = "orgnizationName") String orgName,
                                   @RequestParam(value = "cin") String cin,
                                   @RequestParam(value = "excelFile") MultipartFile file
-
-    ) {
+) {
         try {
 
             Organization organization = new Organization();
