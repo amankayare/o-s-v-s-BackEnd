@@ -41,11 +41,27 @@ public class VoterController {
     @Autowired
     private SecurityService securityService;
 
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "voterLogin", consumes = "application/json", produces = "application/json")
+    public String voterLogin(@RequestBody Voter voter) {
+        Voter fetchedVoter = voterService.checkLoginStatus(voter.getAdharNo(),voter.getPassword());
+
+        if(fetchedVoter != null){
+            return "Success";
+
+        }
+        return "Voter with this Adhar no and password not present";
+    }
+
     @CrossOrigin(origins = "*")
     @PostMapping(path = "addVoter", consumes = "application/json", produces = "application/json")
     public String addVoter(@RequestBody Voter voter) {
-        voterService.insertVoter(voter);
-        return "Success";
+     Boolean voterRegister =    voterService.insertVoter(voter);
+     if(voterRegister){
+         return "Success";
+     }
+        return "Voter with this email or Adhar no. already exist";
     }
 
     @CrossOrigin(origins = "*")

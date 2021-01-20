@@ -22,31 +22,38 @@ import java.util.Iterator;
 public class VoterServiceImple implements VoterService {
 
     @Autowired
-    private VoterRepo VoterRepo;
+    private VoterRepo voterRepo;
     @Autowired
     private EmailService emailService;
 
     @Override
-    public void insertVoter(Voter voter) {
-        VoterRepo.save(voter);
+    public Boolean insertVoter(Voter voter) {
+
+        Voter voterIsalreadyPresent = voterRepo.voterIsAlreadyRegistered(voter.getAdharNo(), voter.getEmail());
+
+        if (voterIsalreadyPresent == null) {
+            voterRepo.save(voter);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<Voter> selectAllVoter() {
-        List<Voter> list = VoterRepo.findAll();
+        List<Voter> list = voterRepo.findAll();
         return list;
     }
 
     @Override
     public Voter selectById(int id) {
-        Optional<Voter> opt = VoterRepo.findById(id);
+        Optional<Voter> opt = voterRepo.findById(id);
 
         return opt.get();
     }
 
     @Override
     public void deleteById(int id) {
-        VoterRepo.deleteById(id);
+        voterRepo.deleteById(id);
 
     }
 
@@ -54,10 +61,10 @@ public class VoterServiceImple implements VoterService {
     @Override
     public String update(Voter voter) {
 
-        Optional<Voter> pt = VoterRepo.findById(voter.getVoterId());
+        Optional<Voter> pt = voterRepo.findById(voter.getVoterId());
 
         if (pt.isPresent()) {
-            VoterRepo.save(voter);
+            voterRepo.save(voter);
             return "Voter is updated";
         } else {
             return "Voter is not found";
@@ -157,6 +164,13 @@ public class VoterServiceImple implements VoterService {
 
 
     }
+
+    @Override
+    public Voter checkLoginStatus(long adharNo, String password) {
+        return voterRepo.voterIsPresent(adharNo, password);
+    }
+
+
     //Iterating over Rows and Columns using for-each loop
 }
 

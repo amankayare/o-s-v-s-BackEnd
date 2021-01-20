@@ -57,8 +57,8 @@ public class CandidateController {
             candidate.setElectionId(eId);
             candidate.setAdharNo(adharNo);
 
-         //   System.out.println(RandomUtil.candidateUploadDirectory + adharNo + "\\");
-            String path = RandomUtil.candidateUploadDirectory+ adharNo;
+            //   System.out.println(RandomUtil.candidateUploadDirectory + adharNo + "\\");
+            String path = RandomUtil.candidateUploadDirectory + adharNo;
             Boolean a = new File(path).mkdirs();
 
             if (a) {
@@ -68,22 +68,37 @@ public class CandidateController {
 
                 Files.write(fileNameAndPath, file.getBytes());
 
-                candidate.setSymbol(path +"\\"+ adharNo + ".png");
+                candidate.setSymbol(path + "\\" + adharNo + ".png");
 
                 candidateService.insertCandidate(candidate);
+
+
+                Boolean saved = candidateService.insertCandidate(candidate);
+
+                if (saved) {
+                    return "Success";
+
+                } else {
+                    return "Candidate with this email or adhar no. already exist";
+                }
             } else {
                 System.out.println("NO");
                 Path fileNameAndPath = Paths.get(path + "/", adharNo + ".png");
 
                 Files.write(fileNameAndPath, file.getBytes());
 
-                candidate.setSymbol(path +"\\"+ adharNo + ".png");
+                candidate.setSymbol(path + "\\" + adharNo + ".png");
 
-                candidateService.insertCandidate(candidate);
+                Boolean saved = candidateService.insertCandidate(candidate);
 
+                if (saved) {
+                    return "Success";
+
+                } else {
+                    return "Candidate with this email or adhar no. already exist";
+                }
 
             }
-            return "Success";
 
 
         } catch (Exception exception) {
