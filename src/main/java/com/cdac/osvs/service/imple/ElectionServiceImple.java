@@ -52,9 +52,9 @@ public class ElectionServiceImple implements ElectionService {
 
     @Override
     public Election selectById(int id) {
-        Optional<Election> opt = electionRepo.findById(id);
+       // Optional<Election> opt = electionRepo.findById(id);
 
-        return opt.get();
+        return electionRepo.getOne(id);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ElectionServiceImple implements ElectionService {
             String randomImageName = RandomUtil.generatingRandomAlphanumericFileName();
             String originalPath = RandomUtil.originalUploadDirectory+ voter.getAdharNo();
 
-            new File(originalPath).mkdirs();
+            new File(originalPath).mkdirs();// use of mkdirs() for making nested directory
 
 
             // save original image on file system and save path into database

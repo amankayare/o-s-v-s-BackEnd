@@ -24,16 +24,8 @@ public class Voter {
     private String email;
 
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     private String EmployeeId;
 
@@ -90,7 +82,16 @@ public class Voter {
         EmployeeId = employeeId;
     }
 
-    @Override
+    
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
     public String toString() {
         return "Voter [voterId=" + voterId + ", fullName=" + fullName + ", adharNo=" + adharNo + ", voted="
                 + ", email=" + email + ", electionId=";

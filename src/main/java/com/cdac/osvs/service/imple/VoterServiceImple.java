@@ -36,6 +36,7 @@ public class VoterServiceImple implements VoterService {
             return true;
         }
         return false;
+
     }
 
     @Override
@@ -46,9 +47,8 @@ public class VoterServiceImple implements VoterService {
 
     @Override
     public Voter selectById(int id) {
-        Optional<Voter> opt = voterRepo.findById(id);
-
-        return opt.get();
+    	
+        return voterRepo.getOne(id);
     }
 
     @Override
