@@ -32,58 +32,78 @@ public class CandidateServiceImple implements CandidateService {
 
     @Override
     public Candidate selectById(int id) {
-    //    Optional<Candidate> opt = candidateRepo.findById(id);
+        Optional<Candidate> opt = candidateRepo.findById(id);
 
-        return candidateRepo.getOne(id);
+        if (opt.isPresent()) {
+            return opt.get();
+
+        }
+        return null;
     }
 
     @Override
-    public void deleteById(int id) {
-        candidateRepo.deleteById(id);
+    public Boolean deleteById(int id) {
+
+        try{
+            candidateRepo.deleteById(id);
+
+            return true;
+        }catch (Exception exception){
+            System.out.println(exception);
+            return  false;
+        }
+
 
     }
 
     @Override
     public Boolean insertCandidate(Candidate candidate) {
 
-        Candidate candidateIsAlreadyRegistered     = candidateRepo.candidateIsAlreadyRegistered(candidate.getAdharNo(), candidate.getEmail());
-       if(candidateIsAlreadyRegistered == null){
-           candidateRepo.save(candidate);
-           System.out.println("candidate was not present so inserting...");
+        Candidate candidateIsAlreadyRegistered = candidateRepo.candidateIsAlreadyRegistered(candidate.getAdharNo(), candidate.getEmail());
+        if (candidateIsAlreadyRegistered == null) {
+            candidateRepo.save(candidate);
+            System.out.println("candidate was not present so inserting...");
 
             return true;
-       }else {
-           System.out.println("candidate is already present");
-           return false;
-       }
+        } else {
+            System.out.println("candidate is already present");
+            return false;
+        }
 
     }
 
 
     @Override
-    public String update(Candidate candidate) {
+    public Candidate update(Candidate candidate) {
 
         Optional<Candidate> pt = candidateRepo.findById(candidate.getCandidateId());
 
         if (pt.isPresent()) {
-            candidateRepo.save(candidate);
-            return "Candidate is updated";
+            Candidate updatedCandidate = candidateRepo.save(candidate);
+            return updatedCandidate;
         } else {
-            return "Candidate is not found";
+            return null;
         }
 
     }
 
     @Override
-    public void addVoteEarned(int eId, int cId, int vId) {
-        int vEarned = getVoteEarned(eId, cId);
-        vEarned = vEarned + 1;
-        System.out.println(vEarned);
+    public Boolean addVoteEarned(int eId, int cId, int vId) {
 
+        try {
+            int vEarned = getVoteEarned(eId, cId);
+            vEarned = vEarned + 1;
+            System.out.println(vEarned);
 
-        candidateRepo.increasesVote(cId, eId, vEarned);
+            candidateRepo.increasesVote(cId, eId, vEarned);
+            voterElectionVotedRepo.voted(1, eId, vId);
+            return true;
 
-        voterElectionVotedRepo.voted(1, eId, vId);
+        } catch (Exception exception) {
+            System.out.println(exception);
+
+            return false;
+        }
     }
 
     @Override

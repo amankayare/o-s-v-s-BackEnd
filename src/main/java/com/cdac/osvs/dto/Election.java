@@ -3,6 +3,7 @@ package com.cdac.osvs.dto;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -32,9 +33,22 @@ public class Election {
     @JoinTable(name = "election_voter")
     private Set<Voter> voterList = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
-    @JoinTable(name = "election_candidate")
-    private Set<Candidate> candidateList = new HashSet<>();
+
+  //  @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+   // @JoinTable(name = "election_candidate")
+   // private Set<Candidate> candidateList = new HashSet<>();
+
+
+    @ManyToMany(fetch=FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(
+            name="candidate_election",
+            joinColumns = @JoinColumn(name ="election_Id"),
+            inverseJoinColumns = @JoinColumn(name="candidate_Id")
+    )
+    private List<Candidate> candidateList;
+
+
+
 
     @Column(name = "organization_id")
     private String organization_id;
@@ -98,11 +112,11 @@ public class Election {
         this.voterList = voterList;
     }
 
-    public Set<Candidate> getCandidateList() {
+    public List<Candidate> getCandidateList() {
         return candidateList;
     }
 
-    public void setCandidateList(Set<Candidate> candidateList) {
+    public void setCandidateList(List<Candidate> candidateList) {
         this.candidateList = candidateList;
     }
 

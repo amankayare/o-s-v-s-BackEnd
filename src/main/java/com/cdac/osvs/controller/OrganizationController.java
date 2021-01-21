@@ -2,9 +2,12 @@ package com.cdac.osvs.controller;
 
 
 import com.cdac.osvs.dto.Organization;
+import com.cdac.osvs.dto.OrganizationStatus;
+import com.cdac.osvs.dto.Status;
 import com.cdac.osvs.service.OrganizationService;
 import com.cdac.osvs.service.VoterService;
 import com.cdac.osvs.util.RandomUtil;
+import com.cdac.osvs.util.images.ConversionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +37,11 @@ public class OrganizationController {
     @PostMapping(value = "addOrganization", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
 
-    public String addOrganization(@RequestParam(value = "orgnizationName") String orgName,
-                                  @RequestParam(value = "cin") String cin,
-                                  @RequestParam(value = "excelFile") MultipartFile file
-) {
+    public OrganizationStatus addOrganization(@RequestParam(value = "orgnizationName") String orgName,
+                                              @RequestParam(value = "cin") String cin,
+                                              @RequestParam(value = "excelFile") MultipartFile file
+    ) {
+        OrganizationStatus status = new OrganizationStatus();
         try {
 
             Organization organization = new Organization();
@@ -53,30 +57,63 @@ public class OrganizationController {
                 Path fileNameAndPath = Paths.get(path + "/", cin + ".xlsx");
 
                 Files.write(fileNameAndPath, file.getBytes());
-                organization.setExcelFile(path +"\\"+ cin + ".xlsx");
+                organization.setExcelFile(path + "\\" + cin + ".xlsx");
 
 
             } else {
                 Path fileNameAndPath = Paths.get(path + "/", cin + ".xlsx");
 
                 Files.write(fileNameAndPath, file.getBytes());
-                organization.setExcelFile(path +"\\"+ cin + ".xlsx");
+                organization.setExcelFile(path + "\\" + cin + ".xlsx");
 
             }
+            File fileForSendingMail = ConversionUtil.multipartToFileForOrganization(file, path + "\\" + cin + ".xlsx");
 
-            organizationService.insertOrganization(organization);
-            return "Success";
+            voterService.readFileAndSendEmail(fileForSendingMail);
+
+
+            Boolean added = organizationService.insertOrganization(organization);
+            //after inserting and putting file on file system we are accessing that file
+
+            if (added) {
+                status.setStatus(Status.StatusType.SUCCESS);
+                status.setMessage("Organization added succesfully !!!");
+                return status;
+            } else {
+                status.setStatus(Status.StatusType.SUCCESS);
+                status.setMessage("Organization already present so updation succesfully !!!");
+                return status;
+            }
+
 
         } catch (Exception e) {
-            return e.getMessage();
+            e.printStackTrace();
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage(e.getMessage());
+            return status;
         }
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping(path = "modifyOrganization", consumes = "application/json", produces = "application/json")
-    public String modifyOrganization(@RequestBody Organization organization) {
-        organizationService.updateOrganization(organization);
-        return "updated";
+    public OrganizationStatus modifyOrganization(@RequestBody Organization organization) {
+        Organization updatedOrganization = null;
+        updatedOrganization = organizationService.updateOrganization(organization);
+        OrganizationStatus status = new OrganizationStatus();
+
+        if (updatedOrganization != null) {
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Organization updated successfully!!!");
+            status.setCin(updatedOrganization.getCin());
+            status.setExcelFile(updatedOrganization.getExcelFile());
+            status.setOrgnizationName(updatedOrganization.getOrgnizationName());
+            return status;
+        } else {
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("Organization Updation failed!! probably organization with this id not present");
+            return status;
+        }
+
     }
 
     @CrossOrigin(origins = "*")

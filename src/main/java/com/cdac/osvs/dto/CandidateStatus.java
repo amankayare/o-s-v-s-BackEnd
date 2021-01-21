@@ -1,54 +1,31 @@
 package com.cdac.osvs.dto;
 
-import javax.persistence.*;
-
 import org.hibernate.annotations.ColumnDefault;
 
-import java.util.HashSet;
+import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name = "candidate")
-public class Candidate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "candidate_Id")
+public class CandidateStatus extends Status{
+
     private int candidateId;
 
-    @Column(name = "full_Name", nullable = false)
     private String fullName;
 
-    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "adharCardNo", nullable = false, unique = true)
     private long adharNo;
 
-    @Column(name = "symbol", nullable = false)
     private String symbol;
 
-    @Column(name = "employee_Id", nullable = false)
     private int employeeId;
 
-    @Column(name = "election_Id", nullable = false)
     private int electionId;
 
-
-    @Column(name = "votedEarned", nullable = false)
-    @ColumnDefault(value = "0")
     private int voteEarned;
 
 
-   // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "candidateList")
-    //   private Set<Election> candidateElectionList = new HashSet<>();
-   @ManyToMany(fetch=FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
-   @JoinTable(
-           name="candidate_election",
-           joinColumns = @JoinColumn(name ="candidate_Id"),
-           inverseJoinColumns = @JoinColumn(name="election_Id")
-   )
-   private List<Election> listOfElection;
+
+    private List<Election> listOfElection;
 
     public int getEmployeeId() {
         return employeeId;
@@ -66,7 +43,7 @@ public class Candidate {
         this.listOfElection = listOfElection;
     }
 
-    public Candidate() {
+    public CandidateStatus() {
         super();
 
     }

@@ -47,27 +47,41 @@ public class VoterServiceImple implements VoterService {
 
     @Override
     public Voter selectById(int id) {
-    	
-        return voterRepo.getOne(id);
+
+        Optional<Voter> opt = voterRepo.findById(id);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void deleteById(int id) {
-        voterRepo.deleteById(id);
+    public Boolean deleteById(int id) {
+        try {
+
+            voterRepo.deleteById(id);
+            return true;
+
+        } catch (Exception exception) {
+            System.out.println(exception);
+            return false;
+        }
+
 
     }
 
 
     @Override
-    public String update(Voter voter) {
+    public Voter update(Voter voter) {
 
         Optional<Voter> pt = voterRepo.findById(voter.getVoterId());
 
         if (pt.isPresent()) {
-            voterRepo.save(voter);
-            return "Voter is updated";
+            Voter updatedVoter = voterRepo.save(voter);
+            return updatedVoter;
         } else {
-            return "Voter is not found";
+            return null;
         }
 
     }
@@ -114,6 +128,7 @@ public class VoterServiceImple implements VoterService {
                             emailService.sendMessageForVoterRegister(email, name);
                         } catch (Exception e) {
                             e.printStackTrace();
+                            throw  e;
                         }
                         // Send mail for voter registration
 

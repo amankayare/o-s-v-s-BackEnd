@@ -11,11 +11,11 @@ public interface VoterService {
 
     public Voter selectById(int id);
 
-    public void deleteById(int id);
+    public Boolean deleteById(int id);
 
     public Boolean insertVoter(Voter voter);
 
-    public String update(Voter voter);
+    public Voter update(Voter voter);
 
     public void readFileAndSendEmail(File excelFile);
 
