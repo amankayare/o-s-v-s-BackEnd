@@ -3,6 +3,7 @@ package com.cdac.osvs.controller;
 import java.util.List;
 
 import com.cdac.osvs.dto.AdminLoginStatus;
+import com.cdac.osvs.dto.AdminStatus;
 import com.cdac.osvs.dto.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,33 +30,80 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "addAdmin", consumes = "application/json", produces = "application/json")
-    public AdminLoginStatus addAdmin(@RequestBody Admin admin) {
-        adminService.insertAdmin(admin);
-        AdminLoginStatus status = new AdminLoginStatus();
-        status.setStatus(Status.StatusType.SUCCESS);
-        status.setMessage("");
-        return status;
+    public AdminStatus addAdmin(@RequestBody Admin admin) {
+        Boolean isInserted = false;
+        isInserted = adminService.insertAdmin(admin);
+        if(isInserted){
+            AdminStatus status = new AdminStatus();
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("admin added successfully");
+            return status;
+        }else{
+            AdminStatus status = new AdminStatus();
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("admin not added");
+            return status;
+        }
+
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping(path = "modifyAdmin", consumes = "application/json", produces = "application/json")
-    public String modifyAdmin(@RequestBody Admin admin) {
-        String data = adminService.update(admin);
-        return data;
+    public AdminStatus modifyAdmin(@RequestBody Admin admin) {
+        Boolean updated = adminService.update(admin);
+        if(updated){
+            AdminStatus status = new AdminStatus();
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("admin updated successfully");
+            return status;
+        }else{
+            AdminStatus status = new AdminStatus();
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("admin not found");
+            return status;
+        }
+
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping(path = "removeAdmin/{id}", consumes = "application/json", produces = "application/json")
-    public String removeAdmin(@PathVariable Integer id) {
-        adminService.deleteById(id);
-        return "Success";
+    public AdminStatus removeAdmin(@PathVariable Integer id) {
+        Boolean isDeleted;
+        isDeleted = adminService.deleteById(id);
+        if(isDeleted){
+            AdminStatus status = new AdminStatus();
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("admin deleted Successfully");
+            return status;
+        }else{
+            AdminStatus status = new AdminStatus();
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("admin not found");
+            return status;
+        }
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "getAdmin/{id}", consumes = "application/json", produces = "application/json")
-    public Admin getAdmin(@PathVariable Integer id) {
+    public AdminStatus getAdmin(@PathVariable Integer id) {
+        AdminStatus status = new AdminStatus();
+        Admin  isFound = null;
 
-        return adminService.selectById(id);
+        isFound = adminService.selectById(id);
+        if(isFound != null){
+            status.setAdminId(isFound.getAdminId());
+            status.setPassword(isFound.getPassword());
+            status.setUsername(isFound.getUsername());
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("admin fetch succesfully");
+
+        }else{
+
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("admin not found");
+            return status;
+        }
+        return status;
     }
 
     @CrossOrigin(origins = "*")
@@ -63,5 +111,6 @@ public class AdminController {
     public List<Admin> getAllAdmin() {
 
         return adminService.selectAllAdmin();
+
     }
 }

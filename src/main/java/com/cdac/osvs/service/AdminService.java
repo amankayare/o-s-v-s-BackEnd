@@ -10,9 +10,9 @@ public interface AdminService {
 
     public Admin selectById(int id);
 
-    public void deleteById(int id);
+    public Boolean deleteById(int id);
 
-    public void insertAdmin(Admin admin);
+    public Boolean insertAdmin(Admin admin);
 
-    public String update(Admin admin);
+    public Boolean update(Admin admin);
 }

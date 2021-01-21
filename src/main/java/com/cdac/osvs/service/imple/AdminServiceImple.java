@@ -30,27 +30,42 @@ public class AdminServiceImple implements AdminService {
     }
 
     @Override
-    public void deleteById(int id) {
-        adminRepo.deleteById(id);
+    public Boolean deleteById(int id) {
+
+        try {
+            adminRepo.deleteById(id);
+            return true;
+
+        } catch (Exception ex) {
+            return false;
+        }
 
     }
 
     @Override
-    public void insertAdmin(Admin admin) {
-        adminRepo.save(admin);
+    public Boolean insertAdmin(Admin admin) {
+        Admin inserted = null;
+        inserted = adminRepo.save(admin);
+        if (inserted != null) {
+            return true;
+
+        } else {
+            return false;
+        }
+
 
     }
 
     @Override
-    public String update(Admin admin) {
+    public Boolean update(Admin admin) {
 
         Optional<Admin> pt = adminRepo.findById(admin.getAdminId());
 
         if (pt.isPresent()) {
             adminRepo.save(admin);
-            return "Admin is updated";
+            return true;
         } else {
-            return "Admin is not found";
+            return false;
         }
 
     }
