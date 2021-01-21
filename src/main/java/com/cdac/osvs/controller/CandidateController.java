@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import com.cdac.osvs.dto.CandidateRegisterStatus;
+import com.cdac.osvs.dto.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,14 +42,17 @@ public class CandidateController {
     @PostMapping(value = "addCandidate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
 
-    public String addCandidate(@RequestParam(value = "fullName") String candidateName,
-                               @RequestParam(value = "email") String email,
-                               @RequestParam(value = "symbol") MultipartFile file,
-                               @RequestParam(value = "electionId") int eId,
-                               @RequestParam(value = "adharNo") int adharNo) {
+    public CandidateRegisterStatus addCandidate(@RequestParam(value = "fullName") String candidateName,
+                                                @RequestParam(value = "email") String email,
+                                                @RequestParam(value = "symbol") MultipartFile file,
+                                                @RequestParam(value = "electionId") int eId,
+                                                @RequestParam(value = "adharNo") long adharNo) {
 
         try {
 
+
+
+            //Status status = new Status();
             Candidate candidate = new Candidate();
 
             //byte[] byteArr = file.getBytes();
@@ -73,12 +78,16 @@ public class CandidateController {
 
 
                 Boolean saved  = candidateService.insertCandidate(candidate);
-
+                CandidateRegisterStatus status = new CandidateRegisterStatus();
                 if (saved) {
-                    return "Success";
+                    status.setStatus(Status.StatusType.SUCCESS);
+                    status.setMessage("Registration successful!");
+                    return status;
 
                 } else {
-                    return "Candidate with this email or adhar no. already exist";
+                    status.setStatus(Status.StatusType.FAILURE);
+                    status.setMessage("Candidate with this email or adhar no. already exist");
+                    return status;
                 }
             } else {
                 System.out.println("NO");
@@ -89,12 +98,17 @@ public class CandidateController {
                 candidate.setSymbol(path + "\\" + adharNo + ".png");
 
                 Boolean saved = candidateService.insertCandidate(candidate);
+                CandidateRegisterStatus status = new CandidateRegisterStatus();
 
                 if (saved) {
-                    return "Success";
+                    status.setStatus(Status.StatusType.SUCCESS);
+                    status.setMessage("Registration successful!");
+                    return status;
 
                 } else {
-                    return "Candidate with this email or adhar no. already exist";
+                    status.setStatus(Status.StatusType.FAILURE);
+                    status.setMessage("Candidate with this email or adhar no. already exist");
+                    return status;
                 }
 
             }
@@ -102,7 +116,10 @@ public class CandidateController {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return exception.getMessage();
+            CandidateRegisterStatus status = new CandidateRegisterStatus();
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage(exception.getMessage());
+            return status;
         }
 
 

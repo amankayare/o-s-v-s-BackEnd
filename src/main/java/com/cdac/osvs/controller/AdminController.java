@@ -2,6 +2,8 @@ package com.cdac.osvs.controller;
 
 import java.util.List;
 
+import com.cdac.osvs.dto.AdminLoginStatus;
+import com.cdac.osvs.dto.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,9 +29,12 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "addAdmin", consumes = "application/json", produces = "application/json")
-    public String addAdmin(@RequestBody Admin admin) {
+    public AdminLoginStatus addAdmin(@RequestBody Admin admin) {
         adminService.insertAdmin(admin);
-        return "Success";
+        AdminLoginStatus status = new AdminLoginStatus();
+        status.setStatus(Status.StatusType.SUCCESS);
+        status.setMessage("");
+        return status;
     }
 
     @CrossOrigin(origins = "*")

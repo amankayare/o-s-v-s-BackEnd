@@ -53,7 +53,7 @@ public class EmailService {
     public void sendMessageForVoterRegister(String to, String name) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "http://localhost:" + angularPort + "/E-Bellot/api/addVoter/";
+        String text = "http://localhost:" + angularPort + "/E-Ballot/api/addVoter/";
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -70,7 +70,7 @@ public class EmailService {
     public void sendMessageForCandidateRegister(String to, String name) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "http://localhost:" + angularPort + "/E-Bellot/api/addCandidate/";
+        String text = "http://localhost:" + angularPort + "/E-Ballot/api/addCandidate/";
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
