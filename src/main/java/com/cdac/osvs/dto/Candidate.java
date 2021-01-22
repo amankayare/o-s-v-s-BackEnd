@@ -3,6 +3,7 @@ package com.cdac.osvs.dto;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public class Candidate {
     @ColumnDefault(value = "0")
     private int voteEarned;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "candidateList")
     private Set<Election> candidateElectionList = new HashSet<>();
 

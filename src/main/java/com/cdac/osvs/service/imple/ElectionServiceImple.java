@@ -52,12 +52,12 @@ public class ElectionServiceImple implements ElectionService {
 
     @Override
     public Election selectById(int id) {
-       // Optional<Election> opt = electionRepo.findById(id);
+        // Optional<Election> opt = electionRepo.findById(id);
 
         Optional<Election> opt = electionRepo.findById(id);
-        if(opt.isPresent()){
+        if (opt.isPresent()) {
             return opt.get();
-        }else {
+        } else {
             return null;
         }
     }
@@ -74,13 +74,14 @@ public class ElectionServiceImple implements ElectionService {
 
 
         electionRepo.save(election);
-
+        System.out.println(election.getVoterList() + "------------");
+        System.out.println(election.getCandidateList() + "--------------");
 
         //adding data into voter Election Voted to maintain who is already voted into particular election
         Set<Voter> voterList = election.getVoterList();
 
         for (Voter voter : voterList) {
-
+            System.out.println("a");
             Voter_Election_Voted voterEletionVoted = new Voter_Election_Voted();
 
             voterEletionVoted.setElectionId(election.getElectionId());
@@ -94,27 +95,24 @@ public class ElectionServiceImple implements ElectionService {
             int randomKey = RandomUtil.generateRandom(8);
 
 
-
             //* Random image (original random image generation) *//
             String randomImageName = RandomUtil.generatingRandomAlphanumericFileName();
-            String originalPath = RandomUtil.originalUploadDirectory+ voter.getAdharNo();
+            String originalPath = RandomUtil.originalUploadDirectory + voter.getAdharNo();
 
             new File(originalPath).mkdirs();// use of mkdirs() for making nested directory
 
 
             // save original image on file system and save path into database
-            String originalFinalPath = originalPath +"\\"+ randomImageName + ".png";
-            File file = RandomUtil.generateRamdomImage(randomImageName,originalPath);
-
-
+            String originalFinalPath = originalPath + "\\" + randomImageName + ".png";
+            File file = RandomUtil.generateRamdomImage(randomImageName, originalPath);
 
 
             //*spliting the original image and saving the share one into file System*//
-            String shareOnePath = RandomUtil.shareOneUploadDirectory+voter.getAdharNo();
+            String shareOnePath = RandomUtil.shareOneUploadDirectory + voter.getAdharNo();
             new File(shareOnePath).mkdirs();
             String randomShareName = RandomUtil.generatingRandomAlphanumericFileName();
 
-            ArrayList<File> splitedFiles = SplitImage.breakImage(file,shareOnePath,randomShareName);
+            ArrayList<File> splitedFiles = SplitImage.breakImage(file, shareOnePath, randomShareName);
             System.out.println("No of images:..........." + splitedFiles.size());
             //byte[] databaseShare = new byte[(int) splitedFiles.get(0).getName().length()];
 
@@ -130,7 +128,7 @@ public class ElectionServiceImple implements ElectionService {
                 exception.printStackTrace();
             }
            */
-            String shareOneFinalPath =shareOnePath +"\\"+randomShareName+"-00"+".png";
+            String shareOneFinalPath = shareOnePath + "\\" + randomShareName + "-00" + ".png";
 
 
             //inserting all security related things into database
@@ -150,7 +148,7 @@ public class ElectionServiceImple implements ElectionService {
             try {
                 File encryptedEmailShare = EncryptImage.doEncrypt(emailShare, randomKey);
 
-               // securityService.insertSecurity(security);
+                // securityService.insertSecurity(security);
 
                 for (Voter voter2 : voterList) {
                     emailService.sendMessageWithAttachment(voter2.getEmail(), voter2.getFullName(), encryptedEmailShare);
