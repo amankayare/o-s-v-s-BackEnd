@@ -67,7 +67,7 @@ public class ElectionServiceImple implements ElectionService {
     public void insertElection(Election election) {
 
 
-        electionRepo.save(election);
+     Election latestClection =  electionRepo.save(election);
         System.out.println(election.getVoterList() + "------------");
         System.out.println(election.getCandidateList() + "--------------");
 
@@ -145,7 +145,7 @@ public class ElectionServiceImple implements ElectionService {
                 // securityService.insertSecurity(security);
 
                 for (Voter voter2 : voterList) {
-                    emailService.sendMessageWithAttachment(voter2.getEmail(), voter2.getFullName(), encryptedEmailShare);
+                    emailService.sendMessageWithAttachment(encryptedEmailShare,latestClection,voter2);
                     //emailService.sendMessageForVoterRegister(voter2.getEmail(),voter2.getFullName());
 
                 }
