@@ -131,6 +131,8 @@ public class VoterController {
         Voter updatedVoter = null;
         VoterStatus status = new VoterStatus();
 
+        System.out.println(voter);
+        
         updatedVoter = voterService.update(voter);
 
         if (updatedVoter != null) {
@@ -155,9 +157,9 @@ public class VoterController {
     }
 
     @CrossOrigin(origins = "*")
-    @DeleteMapping(path = "removeVoter/{id}", consumes = "application/json", produces = "application/json")
+    @DeleteMapping(path = "removeVoter/{id}", produces = "application/json")
     public VoterStatus removeVoter(@PathVariable Integer id) {
-
+       System.out.println(" id "+id);
         Boolean removed = voterService.deleteById(id);
         VoterStatus status = new VoterStatus();
         if (removed) {
