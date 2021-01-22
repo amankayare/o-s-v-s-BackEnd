@@ -2,9 +2,13 @@ package com.cdac.osvs.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.cdac.osvs.dto.*;
+import com.cdac.osvs.service.ElectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,32 +39,71 @@ public class VoterController {
 
     @Autowired
     private SecurityService securityService;
-
+    @Autowired
+    private ElectionService electionService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "voterLogin", consumes = "application/json", produces = "application/json")
-    public VoterLoginStatus voterLogin(@RequestBody Voter voter) {
+    @PostMapping(path = "voterLogin", produces = "application/json")
+    public VoterLoginStatus voterLogin(@RequestParam(value = "adharNo") long adharNo,
+                                       @RequestParam(value = "password") String password,
+                                       @RequestParam("electionId") int electionId) {
         VoterLoginStatus status = new VoterLoginStatus();
+        Election election = null;
+        election = electionService.selectById(electionId);
+        if (election == null) {
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("Login Failed !!! probably election with this id not found");
+            return status;
+        } else {
 
-        try {
-            Voter fetchedVoter = null;
-            fetchedVoter = voterService.checkLoginStatus(voter.getAdharNo(), voter.getPassword());
-            if (fetchedVoter != null) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate today = LocalDate.now();
+            System.out.println("System TIME: " + dtf.format(today));
+
+            String stringStartDate = election.getStartDate();
+            String stringEndDate = election.getEndDate();
+
+            LocalDate startDate = LocalDate.parse(stringStartDate, dtf);
+            LocalDate endDate = LocalDate.parse(stringEndDate, dtf);
+            System.out.println("Converted End Date: "+endDate);
+            System.out.println("Converted start Date: "+startDate);
+
+
+            if(today.compareTo(startDate)>=0 &&  today.compareTo(endDate) <= 0){
+
                 status.setStatus(Status.StatusType.SUCCESS);
-                status.setMessage("Login Successfully");
-                return status;
+                status.setMessage("voting is  allowed today");
 
-            } else {
+                try {
+                    Voter fetchedVoter = null;
+                    fetchedVoter = voterService.checkLoginStatus(adharNo, password);
+                    if (fetchedVoter != null) {
+                        status.setStatus(Status.StatusType.SUCCESS);
+                        status.setMessage("Login Successfully");
+                        return status;
+
+                    } else {
+                        status.setStatus(Status.StatusType.FAILURE);
+                        status.setMessage("Voter with this Adhar no and password not present");
+                        return status;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    status.setStatus(Status.StatusType.FAILURE);
+                    status.setMessage(exception.getMessage());
+                    return status;
+                }
+
+            }else{
                 status.setStatus(Status.StatusType.FAILURE);
-                status.setMessage("Voter with this Adhar no and password not present");
+                status.setMessage("voting is not allowed today");
                 return status;
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            status.setStatus(Status.StatusType.FAILURE);
-            status.setMessage(exception.getMessage());
-            return status;
+
+
         }
+
+
     }
 
     @CrossOrigin(origins = "*")

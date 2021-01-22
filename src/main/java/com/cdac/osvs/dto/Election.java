@@ -1,5 +1,7 @@
 package com.cdac.osvs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.HashSet;
@@ -29,14 +31,26 @@ public class Election {
     @Column(name = "result_Date")
     private String resultDate;
 
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(name = "election_voter")
+    @JsonIgnore
+    private Set<Voter> voterList = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "election_candidate")
+    private Set<Candidate> candidateList = new HashSet<>();
+
+    /*
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     @JoinTable(name = "election_voter")
     private Set<Voter> voterList = new HashSet<>();
 
 
-  //  @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
-   // @JoinTable(name = "election_candidate")
-   // private Set<Candidate> candidateList = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(name = "election_candidate")
+    private Set<Candidate> candidateList = new HashSet<>();
 
 
     @ManyToMany(fetch=FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
@@ -46,7 +60,7 @@ public class Election {
             inverseJoinColumns = @JoinColumn(name="candidate_Id")
     )
     private List<Candidate> candidateList;
-
+*/
 
 
 
@@ -70,7 +84,6 @@ public class Election {
     public void setElectionId(int electionId) {
         this.electionId = electionId;
     }
-
 
     public String getElectionName() {
         return electionName;
@@ -112,11 +125,11 @@ public class Election {
         this.voterList = voterList;
     }
 
-    public List<Candidate> getCandidateList() {
+    public Set<Candidate> getCandidateList() {
         return candidateList;
     }
 
-    public void setCandidateList(List<Candidate> candidateList) {
+    public void setCandidateList(Set<Candidate> candidateList) {
         this.candidateList = candidateList;
     }
 
@@ -135,13 +148,4 @@ public class Election {
     public void setCin(String cin) {
         this.cin = cin;
     }
-
-    @Override
-    public String toString() {
-        return "Election [electionId=" + electionId + ", name=" + electionName + ", startDate=" + startDate + ", endDate="
-                + endDate + ", resultDate=" + resultDate + ", voterList=" + voterList + ", candidateList="
-                + candidateList + ", organization_id=" + organization_id + ", cin=" + cin + "]";
-    }
-
-
 }

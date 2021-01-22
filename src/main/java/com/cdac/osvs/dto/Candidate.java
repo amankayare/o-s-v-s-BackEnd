@@ -2,6 +2,7 @@ package com.cdac.osvs.dto;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.HashSet;
@@ -39,37 +40,18 @@ public class Candidate {
     @ColumnDefault(value = "0")
     private int voteEarned;
 
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "candidateList")
+    private Set<Election> candidateElectionList = new HashSet<>();
 
-   // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "candidateList")
-    //   private Set<Election> candidateElectionList = new HashSet<>();
-   @ManyToMany(fetch=FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+   /*@ManyToMany(fetch=FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
    @JoinTable(
            name="candidate_election",
            joinColumns = @JoinColumn(name ="candidate_Id"),
            inverseJoinColumns = @JoinColumn(name="election_Id")
    )
    private List<Election> listOfElection;
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public List<Election> getListOfElection() {
-        return listOfElection;
-    }
-
-    public void setListOfElection(List<Election> listOfElection) {
-        this.listOfElection = listOfElection;
-    }
-
-    public Candidate() {
-        super();
-
-    }
+*/
 
     public int getCandidateId() {
         return candidateId;
@@ -95,6 +77,14 @@ public class Candidate {
         this.email = email;
     }
 
+    public long getAdharNo() {
+        return adharNo;
+    }
+
+    public void setAdharNo(long adharNo) {
+        this.adharNo = adharNo;
+    }
+
     public String getSymbol() {
         return symbol;
     }
@@ -103,12 +93,20 @@ public class Candidate {
         this.symbol = symbol;
     }
 
-    public int getElectionId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public int getElectionId() {
+        return electionId;
+    }
+
     public void setElectionId(int electionId) {
-        this.employeeId = electionId;
+        this.electionId = electionId;
     }
 
     public int getVoteEarned() {
@@ -119,29 +117,11 @@ public class Candidate {
         this.voteEarned = voteEarned;
     }
 
-
-
-
-    public long getAdharNo() {
-        return adharNo;
+    public Set<Election> getCandidateElectionList() {
+        return candidateElectionList;
     }
 
-    public void setAdharNo(long adharNo) {
-        this.adharNo = adharNo;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Candidate{" +
-                "candidateId=" + candidateId +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", adharNo=" + adharNo +
-                ", symbol='" + symbol + '\'' +
-                ", employeeId=" + employeeId +
-                ", voteEarned=" + voteEarned +
-                ", listOfElection=" + listOfElection +
-                '}';
+    public void setCandidateElectionList(Set<Election> candidateElectionList) {
+        this.candidateElectionList = candidateElectionList;
     }
 }

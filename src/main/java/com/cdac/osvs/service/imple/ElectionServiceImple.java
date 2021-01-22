@@ -54,7 +54,12 @@ public class ElectionServiceImple implements ElectionService {
     public Election selectById(int id) {
        // Optional<Election> opt = electionRepo.findById(id);
 
-        return electionRepo.getOne(id);
+        Optional<Election> opt = electionRepo.findById(id);
+        if(opt.isPresent()){
+            return opt.get();
+        }else {
+            return null;
+        }
     }
 
     @Override

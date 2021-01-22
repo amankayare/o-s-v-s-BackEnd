@@ -43,7 +43,9 @@ public class CandidateController {
                                         @RequestParam(value = "email") String email,
                                         @RequestParam(value = "symbol") MultipartFile file,
                                         @RequestParam(value = "electionId") int eId,
-                                        @RequestParam(value = "adharNo") long adharNo) {
+                                        @RequestParam(value = "adharNo") int adharNo,
+                                        @RequestParam(value = "employeeId") int employeeId
+    ) {
 
         try {
 
@@ -57,6 +59,9 @@ public class CandidateController {
             candidate.setEmail(email);
             candidate.setElectionId(eId);
             candidate.setAdharNo(adharNo);
+            candidate.setEmployeeId(employeeId);
+
+
 
             //   System.out.println(RandomUtil.candidateUploadDirectory + adharNo + "\\");
             String path = RandomUtil.candidateUploadDirectory + adharNo;
@@ -136,7 +141,7 @@ public class CandidateController {
             status.setEmail(updatedCandidate.getEmail());
             status.setAdharNo(updatedCandidate.getAdharNo());
             status.setFullName(updatedCandidate.getFullName());
-            status.setListOfElection(updatedCandidate.getListOfElection());
+            status.setListOfElection(updatedCandidate.getCandidateElectionList());
             status.setStatus(Status.StatusType.SUCCESS);
             status.setMessage("Candidate updated successfully");
             return status;
@@ -181,9 +186,9 @@ public class CandidateController {
             status.setEmployeeId(candidate.getEmployeeId());
             status.setVoteEarned(candidate.getVoteEarned());
             status.setFullName(candidate.getFullName());
-            System.out.println(candidate.getListOfElection());
-            for (Election election : candidate.getListOfElection()) {
-                status.setListOfElection(candidate.getListOfElection());
+            System.out.println(candidate.getCandidateElectionList());
+            for (Election election : candidate.getCandidateElectionList()) {
+                status.setListOfElection(candidate.getCandidateElectionList());
             }
             status.setStatus(Status.StatusType.SUCCESS);
             status.setMessage("candidate fetched successfully");

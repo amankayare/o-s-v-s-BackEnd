@@ -4,6 +4,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 public class CandidateStatus extends Status{
 
@@ -25,28 +26,7 @@ public class CandidateStatus extends Status{
 
 
 
-    private List<Election> listOfElection;
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public List<Election> getListOfElection() {
-        return listOfElection;
-    }
-
-    public void setListOfElection(List<Election> listOfElection) {
-        this.listOfElection = listOfElection;
-    }
-
-    public CandidateStatus() {
-        super();
-
-    }
+    private Set<Election> listOfElection;
 
     public int getCandidateId() {
         return candidateId;
@@ -72,6 +52,14 @@ public class CandidateStatus extends Status{
         this.email = email;
     }
 
+    public long getAdharNo() {
+        return adharNo;
+    }
+
+    public void setAdharNo(long adharNo) {
+        this.adharNo = adharNo;
+    }
+
     public String getSymbol() {
         return symbol;
     }
@@ -80,12 +68,20 @@ public class CandidateStatus extends Status{
         this.symbol = symbol;
     }
 
-    public int getElectionId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public int getElectionId() {
+        return electionId;
+    }
+
     public void setElectionId(int electionId) {
-        this.employeeId = electionId;
+        this.electionId = electionId;
     }
 
     public int getVoteEarned() {
@@ -96,29 +92,11 @@ public class CandidateStatus extends Status{
         this.voteEarned = voteEarned;
     }
 
-
-
-
-    public long getAdharNo() {
-        return adharNo;
+    public Set<Election> getListOfElection() {
+        return listOfElection;
     }
 
-    public void setAdharNo(long adharNo) {
-        this.adharNo = adharNo;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Candidate{" +
-                "candidateId=" + candidateId +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", adharNo=" + adharNo +
-                ", symbol='" + symbol + '\'' +
-                ", employeeId=" + employeeId +
-                ", voteEarned=" + voteEarned +
-                ", listOfElection=" + listOfElection +
-                '}';
+    public void setListOfElection(Set<Election> listOfElection) {
+        this.listOfElection = listOfElection;
     }
 }

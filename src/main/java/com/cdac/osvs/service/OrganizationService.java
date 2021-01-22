@@ -21,4 +21,7 @@ public interface OrganizationService {
 
     public void readFileAndSendEmail(File excelFile);
 
+    public Boolean deleteOrganizationById(int id);
+
+
 }

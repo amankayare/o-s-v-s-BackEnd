@@ -95,50 +95,117 @@ public class OrganizationController {
     }
 
     @CrossOrigin(origins = "*")
-    @PutMapping(path = "modifyOrganization", consumes = "application/json", produces = "application/json")
-    public OrganizationStatus modifyOrganization(@RequestBody Organization organization) {
-        Organization updatedOrganization = null;
-        updatedOrganization = organizationService.updateOrganization(organization);
-        OrganizationStatus status = new OrganizationStatus();
+    @PutMapping(path = "modifyOrganization", produces = "application/json")
+    public OrganizationStatus modifyOrganization(@RequestParam(value = "cin") String cin,
+                                                 @RequestParam(value = "excelFile") MultipartFile file,
+                                                 @RequestParam(value = "orgnizationName") String orgnizationName,
+                                                 @RequestParam(value = "id") int id
 
-        if (updatedOrganization != null) {
-            status.setStatus(Status.StatusType.SUCCESS);
-            status.setMessage("Organization updated successfully!!!");
-            status.setCin(updatedOrganization.getCin());
-            status.setExcelFile(updatedOrganization.getExcelFile());
-            status.setOrgnizationName(updatedOrganization.getOrgnizationName());
-            return status;
-        } else {
+
+    ) {
+
+        try {
+            Organization organization = new Organization();
+            organization.setCin(cin);
+            organization.setOrgnizationName(orgnizationName);
+            organization.setId(id);
+
+            String path = RandomUtil.organizationUploadDirectory + cin;
+            Boolean a = new File(path).mkdirs();
+
+
+            if (a) {
+                Path fileNameAndPath = Paths.get(path + "/", cin + ".xlsx");
+
+                Files.write(fileNameAndPath, file.getBytes());
+                organization.setExcelFile(path + "\\" + cin + ".xlsx");
+
+
+            } else {
+                Path fileNameAndPath = Paths.get(path + "/", cin + ".xlsx");
+
+                Files.write(fileNameAndPath, file.getBytes());
+                organization.setExcelFile(path + "\\" + cin + ".xlsx");
+
+            }
+
+            Organization updatedOrganization = null;
+            updatedOrganization = organizationService.updateOrganization(organization);
+            OrganizationStatus status = new OrganizationStatus();
+
+            if (updatedOrganization != null) {
+
+                status.setStatus(Status.StatusType.SUCCESS);
+                status.setMessage("Organization updated successfully!!!");
+                status.setCin(updatedOrganization.getCin());
+                status.setExcelFile(updatedOrganization.getExcelFile());
+                status.setOrgnizationName(updatedOrganization.getOrgnizationName());
+                return status;
+            } else {
+                status.setStatus(Status.StatusType.FAILURE);
+                status.setMessage("Organization Updation failed!! probably organization with this id not present");
+                return status;
+            }
+        } catch (Exception exception) {
+            OrganizationStatus status = new OrganizationStatus();
+
             status.setStatus(Status.StatusType.FAILURE);
-            status.setMessage("Organization Updation failed!! probably organization with this id not present");
+            status.setMessage(exception.getMessage());
             return status;
         }
 
     }
 
     @CrossOrigin(origins = "*")
-    @DeleteMapping(path = "removeOrganization/{id}", consumes = "application/json", produces = "application/json")
-    public String removeAdmin(@PathVariable String id) {
-        organizationService.deleteOrganizationByCinNo(id);
-        return "Success";
+    @DeleteMapping(path = "removeOrganization/{id}", produces = "application/json")
+    public Status removeAdmin(@PathVariable int id) {
+        Status status = new Status();
+
+        Boolean deleted = organizationService.deleteOrganizationById(id);
+
+        if (deleted) {
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Organization deleted successfully!!!");
+            return status;
+        } else {
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("Organization deletion Failed probably organization with this id not found");
+            return status;
+        }
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(path = "getOrganization/{id}", consumes = "application/json", produces = "application/json")
-    public Organization getOrganization(@PathVariable Integer id) {
+    @GetMapping(path = "getOrganization/{id}", produces = "application/json")
+    public OrganizationStatus getOrganization(@PathVariable Integer id) {
+        OrganizationStatus status = new OrganizationStatus();
+        Organization organization = null;
+        organization = organizationService.getOrganizationById(id);
+        if (organization != null) {
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Organization Fetched Successfully");
+            status.setId(organization.getId());
+            status.setExcelFile(organization.getExcelFile());
+            status.setCin(organization.getCin());
+            status.setOrgnizationName(organization.getOrgnizationName());
+            return status;
 
-        return organizationService.getOrganizationById(id);
+        } else {
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Organization updation Failed !!! probably organization with this id not found!!!");
+            return status;
+        }
+
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(path = "getOrganizationByCinNo/{id}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "getOrganizationByCinNo/{id}", produces = "application/json")
     public Organization getOrganizationByCinNo(@PathVariable String id) {
 
         return organizationService.getOrganizationByCinNo(id);
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(path = "getAllOrganization", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "getAllOrganization", produces = "application/json")
     public List<Organization> getAllOrganization() {
 
         return organizationService.getAllOrganization();

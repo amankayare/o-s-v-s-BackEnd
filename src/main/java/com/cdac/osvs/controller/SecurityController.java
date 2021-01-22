@@ -40,14 +40,14 @@ public class SecurityController {
     }
 
     @CrossOrigin(origins = "*")
-    @DeleteMapping(path = "removeSecurity/{id}", consumes = "application/json", produces = "application/json")
+    @DeleteMapping(path = "removeSecurity/{id}",  produces = "application/json")
     public String removeSecurity(@PathVariable Integer id) {
         securityService.deleteById(id);
         return "Success";
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(path = "getSecurity/{id}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "getSecurity/{id}", produces = "application/json")
     public Security getSecurity(@PathVariable Integer id) {
 
         return securityService.selectById(id);

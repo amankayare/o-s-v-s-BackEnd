@@ -22,6 +22,7 @@ public class OrganizationServiceImple implements OrganizationService {
     OrganizationRepo organizationRepo;
 
     private EmailService emailService;
+
     @Override
     public Boolean insertOrganization(Organization org) {
         Organization organization = null;
@@ -47,7 +48,7 @@ public class OrganizationServiceImple implements OrganizationService {
             organizationRepo.save(org);
             return opt.get();
 
-        }else{
+        } else {
             return null;
         }
 
@@ -60,14 +61,33 @@ public class OrganizationServiceImple implements OrganizationService {
             organizationRepo.deleteExistOrganization(cinNo);
             return true;
 
-        }catch (Exception exception){
+        } catch (Exception exception) {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deleteOrganizationById(int id) {
+
+        try {
+            organizationRepo.deleteById(id);
+            return true;
+
+        } catch (Exception exception) {
             return false;
         }
     }
 
     @Override
     public Organization getOrganizationById(int id) {
-        return organizationRepo.getOne(id);
+
+        Optional<Organization> opt = organizationRepo.findById(id);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            return null;
+        }
+
     }
 
     @Override

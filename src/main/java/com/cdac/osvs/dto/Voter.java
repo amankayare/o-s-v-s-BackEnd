@@ -1,5 +1,8 @@
 package com.cdac.osvs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +34,7 @@ public class Voter {
 
 
 
-
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "voterList")
     private Set<Election> voterElectionList = new HashSet<>();
 
