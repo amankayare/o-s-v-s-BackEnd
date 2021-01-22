@@ -1,42 +1,29 @@
 package com.cdac.osvs.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+public class VoterStatus extends Status {
 
-@Entity
-@Table(name = "voters")
-public class Voter {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "voter_Id")
+
     private int voterId;
 
-    @Column(name = "voter_Name", nullable = false)
     private String fullName;
 
-    @Column(name = "Adhar_Card_No", nullable = false)
     private long adharNo;
 
 
-    @Column(name = "voter_Email", nullable = false, unique = true)
     private String email;
 
 
-    @Column(name = "password")
     private String password;
 
     private String employeeId;
 
 
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "voterList")
+
     private Set<Election> voterElectionList = new HashSet<>();
 
     public int getVoterId() {
@@ -97,7 +84,7 @@ public class Voter {
 
 
 
-	@Override
+    @Override
     public String toString() {
         return "Voter{" +
                 "voterId=" + voterId +
@@ -109,4 +96,6 @@ public class Voter {
                 ", voterElectionList=" + voterElectionList +
                 '}';
     }
+
+
 }

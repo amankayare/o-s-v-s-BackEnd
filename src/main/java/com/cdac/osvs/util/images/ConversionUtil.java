@@ -55,5 +55,10 @@ public class ConversionUtil {
         multipart.transferTo(convFile);
         return convFile;
     }
+    public static File multipartToFileForOrganization(MultipartFile multipart, String path ) throws IllegalStateException, IOException {
+        File convFile = new File(path);
+        multipart.transferTo(convFile);
+        return convFile;
+    }
 
 }

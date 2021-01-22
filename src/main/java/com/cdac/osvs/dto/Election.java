@@ -1,8 +1,12 @@
 package com.cdac.osvs.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -28,13 +32,38 @@ public class Election {
     @Column(name = "result_Date")
     private String resultDate;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "election_voter")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Voter> voterList = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "election_candidate")
     private Set<Candidate> candidateList = new HashSet<>();
+
+    /*
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(name = "election_voter")
+    private Set<Voter> voterList = new HashSet<>();
+
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(name = "election_candidate")
+    private Set<Candidate> candidateList = new HashSet<>();
+
+
+    @ManyToMany(fetch=FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(
+            name="candidate_election",
+            joinColumns = @JoinColumn(name ="election_Id"),
+            inverseJoinColumns = @JoinColumn(name="candidate_Id")
+    )
+    private List<Candidate> candidateList;
+*/
+
+
 
     @Column(name = "organization_id")
     private String organization_id;
@@ -56,7 +85,6 @@ public class Election {
     public void setElectionId(int electionId) {
         this.electionId = electionId;
     }
-
 
     public String getElectionName() {
         return electionName;
@@ -121,13 +149,4 @@ public class Election {
     public void setCin(String cin) {
         this.cin = cin;
     }
-
-    @Override
-    public String toString() {
-        return "Election [electionId=" + electionId + ", name=" + electionName + ", startDate=" + startDate + ", endDate="
-                + endDate + ", resultDate=" + resultDate + ", voterList=" + voterList + ", candidateList="
-                + candidateList + ", organization_id=" + organization_id + ", cin=" + cin + "]";
-    }
-
-
 }

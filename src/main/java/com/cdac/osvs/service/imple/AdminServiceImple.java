@@ -15,43 +15,57 @@ import com.cdac.osvs.service.AdminService;
 public class AdminServiceImple implements AdminService {
 
     @Autowired
-    private AdminRepo AdminRepo;
+    private AdminRepo adminRepo;
 
     @Override
     public List<Admin> selectAllAdmin() {
-        List<Admin> list = AdminRepo.findAll();
+        List<Admin> list = adminRepo.findAll();
         return list;
     }
 
     @Override
     public Admin selectById(int id) {
-        Optional<Admin> opt = AdminRepo.findById(id);
 
-        return opt.get();
+        return adminRepo.getOne(id);
     }
 
     @Override
-    public void deleteById(int id) {
-        AdminRepo.deleteById(id);
+    public Boolean deleteById(int id) {
+
+        try {
+            adminRepo.deleteById(id);
+            return true;
+
+        } catch (Exception ex) {
+            return false;
+        }
 
     }
 
     @Override
-    public void insertAdmin(Admin admin) {
-        AdminRepo.save(admin);
+    public Boolean insertAdmin(Admin admin) {
+        Admin inserted = null;
+        inserted = adminRepo.save(admin);
+        if (inserted != null) {
+            return true;
+
+        } else {
+            return false;
+        }
+
 
     }
 
     @Override
-    public String update(Admin admin) {
+    public Boolean update(Admin admin) {
 
-        Optional<Admin> pt = AdminRepo.findById(admin.getAdminId());
+        Optional<Admin> pt = adminRepo.findById(admin.getAdminId());
 
         if (pt.isPresent()) {
-            AdminRepo.save(admin);
-            return "Admin is updated";
+            adminRepo.save(admin);
+            return true;
         } else {
-            return "Admin is not found";
+            return false;
         }
 
     }

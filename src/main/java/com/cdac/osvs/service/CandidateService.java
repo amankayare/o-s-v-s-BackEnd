@@ -10,13 +10,13 @@ public interface CandidateService {
 
     public Candidate selectById(int id);
 
-    public void deleteById(int id);
+    public Boolean deleteById(int id);
 
     public Boolean insertCandidate(Candidate candidate);
 
-    public String update(Candidate candidate);
+    public Candidate update(Candidate candidate);
 
-    public void addVoteEarned(int eId, int cId, int vId);
+    public Boolean addVoteEarned(int eId, int cId, int vId);
 
     public int getVoteEarned(int eId, int cId);
 }

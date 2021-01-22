@@ -1,8 +1,11 @@
 package com.cdac.osvs.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
+import com.cdac.osvs.dto.ElectionStatus;
+import com.cdac.osvs.dto.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +31,8 @@ public class ElectionController {
     @CrossOrigin(origins = "*")
     @PostMapping(path = "addElection", consumes = "application/json")
     public String addElection(@RequestBody Election election) {
+        System.out.println(election.getCandidateList());
+        System.out.println(election.getVoterList());
         electionService.insertElection(election);
         return "Success";
     }
@@ -48,16 +53,56 @@ public class ElectionController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "getElection/{id}", produces = "application/json")
-    public Election getElection(@PathVariable Integer id) {
+    public ElectionStatus getElection(@PathVariable Integer id) {
 
-        return electionService.selectById(id);
+        ElectionStatus status = new ElectionStatus();
+        Election election = null;
+        election = electionService.selectById(id);
+
+        if (election != null) {
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Election Fetched successfully !!! ");
+            status.setElectionId(election.getElectionId());
+            status.setElectionName(election.getElectionName());
+            status.setCin(election.getCin());
+            status.setEndDate(election.getEndDate());
+            status.setStartDate(election.getStartDate());
+            status.setCandidateList(election.getCandidateList());
+            status.setVoterList(election.getVoterList());
+            status.setOrganization_id(election.getOrganization_id());
+            status.setResultDate(election.getResultDate());
+            return status;
+        } else {
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Election Fetching failed probably election wit this id not found !!! ");
+            return status;
+        }
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(path = "getAllElection", produces = "application/json")
-    public List<Election> getAllElection() {
+    public List<ElectionStatus> getAllElection() {
 
-        return electionService.selectAllElection();
+        List<Election> list = electionService.selectAllElection();
+
+       List <ElectionStatus> status = new ArrayList<ElectionStatus>();
+
+
+        for(Election election : list){
+            ElectionStatus temp = new ElectionStatus();
+
+            temp.setResultDate(election.getResultDate());
+            temp.setElectionId(election.getElectionId());
+            temp.setElectionName(election.getElectionName());
+            temp.setOrganization_id(election.getOrganization_id());
+            temp.setVoterList(election.getVoterList());
+            temp.setCandidateList(election.getCandidateList());
+            temp.setCin(election.getCin());
+            temp.setStartDate(election.getStartDate());
+            temp.setEndDate(election.getEndDate());
+            status.add(temp);
+        }
+        return status;
     }
 
 

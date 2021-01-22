@@ -1,5 +1,6 @@
 package com.cdac.osvs.util.email;
 
+import com.cdac.osvs.Exception.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -51,26 +52,30 @@ public class EmailService {
 
 
     public void sendMessageForVoterRegister(String to, String name) throws Exception {
-        MimeMessage message = emailSender.createMimeMessage();
+       try {
+           MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "http://localhost:" + angularPort + "/E-Bellot/api/addVoter/";
+           String text = "http://localhost:" + angularPort + "/E-Ballot/api/addVoter/";
 
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+           MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom("eballotonlinevotingsystem@gmail.com");
-        helper.setTo(to);
-        helper.setSubject(voterRegistration);
-        helper.setText(text);
+           helper.setFrom("eballotonlinevotingsystem@gmail.com");
+           helper.setTo(to);
+           helper.setSubject(voterRegistration);
+           helper.setText(text);
 
 
-        emailSender.send(message);
+           emailSender.send(message);
+       }catch (EmailException exception){
+           throw new EmailException(exception.getMessage());
+       }
     }
 
 
     public void sendMessageForCandidateRegister(String to, String name) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "http://localhost:" + angularPort + "/E-Bellot/api/addCandidate/";
+        String text = "http://localhost:" + angularPort + "/E-Ballot/api/addCandidate/";
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 

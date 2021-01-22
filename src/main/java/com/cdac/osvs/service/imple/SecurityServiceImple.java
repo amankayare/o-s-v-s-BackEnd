@@ -16,30 +16,30 @@ import com.cdac.osvs.service.SecurityService;
 public class SecurityServiceImple implements SecurityService {
 
     @Autowired
-    private SecurityRepo SecurityRepo;
+    private SecurityRepo securityRepo;
 
     @Override
     public List<Security> selectAllSecurity() {
-        List<Security> list = SecurityRepo.findAll();
+        List<Security> list = securityRepo.findAll();
         return list;
     }
 
     @Override
     public Security selectById(int id) {
-        Optional<Security> opt = SecurityRepo.findById(id);
+     //   Optional<Security> opt = SecurityRepo.findById(id);
 
-        return opt.get();
+        return securityRepo.getOne(id);
     }
 
     @Override
     public void deleteById(int id) {
-        SecurityRepo.deleteById(id);
+        securityRepo.deleteById(id);
 
     }
 
     @Override
     public void insertSecurity(Security security) {
-        SecurityRepo.save(security);
+        securityRepo.save(security);
 
 
     }
@@ -47,10 +47,10 @@ public class SecurityServiceImple implements SecurityService {
     @Override
     public String update(Security security) {
 
-        Optional<Security> pt = SecurityRepo.findById(security.getSecurityId());
+        Optional<Security> pt = securityRepo.findById(security.getSecurityId());
 
         if (pt.isPresent()) {
-            SecurityRepo.save(security);
+            securityRepo.save(security);
             return "Security is updated";
         } else {
             return "Security is not found";
@@ -61,7 +61,7 @@ public class SecurityServiceImple implements SecurityService {
     @Override
     public Security getSecurityByVoterIdEletionId(int vId, int eId) {
 
-        return SecurityRepo.getSecurityDetails(vId, eId);
+        return securityRepo.getSecurityDetails(vId, eId);
     }
 
 
