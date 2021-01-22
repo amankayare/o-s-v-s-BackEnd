@@ -37,9 +37,6 @@ public class Candidate {
     private int electionId;
 
 
-    @Column(name = "votedEarned", nullable = false)
-    @ColumnDefault(value = "0")
-    private int voteEarned;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "candidateList")
@@ -109,15 +106,7 @@ public class Candidate {
     public void setElectionId(int electionId) {
         this.electionId = electionId;
     }
-
-    public int getVoteEarned() {
-        return voteEarned;
-    }
-
-    public void setVoteEarned(int voteEarned) {
-        this.voteEarned = voteEarned;
-    }
-
+    
     public Set<Election> getCandidateElectionList() {
         return candidateElectionList;
     }

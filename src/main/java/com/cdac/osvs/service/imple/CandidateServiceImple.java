@@ -44,13 +44,13 @@ public class CandidateServiceImple implements CandidateService {
     @Override
     public Boolean deleteById(int id) {
 
-        try{
+        try {
             candidateRepo.deleteById(id);
 
             return true;
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println(exception);
-            return  false;
+            return false;
         }
 
 
@@ -87,29 +87,7 @@ public class CandidateServiceImple implements CandidateService {
 
     }
 
-    @Override
-    public Boolean addVoteEarned(int eId, int cId, int vId) {
 
-        try {
-            int vEarned = getVoteEarned(eId, cId);
-            vEarned = vEarned + 1;
-            System.out.println(vEarned);
 
-            candidateRepo.increasesVote(cId, eId, vEarned);
-            voterElectionVotedRepo.voted(1, eId, vId);
-            return true;
-
-        } catch (Exception exception) {
-            System.out.println(exception);
-
-            return false;
-        }
-    }
-
-    @Override
-    public int getVoteEarned(int eId, int cId) {
-
-        return candidateRepo.getOne(cId).getVoteEarned();
-    }
 
 }

@@ -1,11 +1,6 @@
 package com.cdac.osvs.service.imple;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +8,7 @@ import java.util.Set;
 
 import com.cdac.osvs.dto.Security;
 import com.cdac.osvs.dto.Voter;
-import com.cdac.osvs.dto.Voter_Election_Voted;
+import com.cdac.osvs.dto.VoterElectionVoted;
 import com.cdac.osvs.service.SecurityService;
 import com.cdac.osvs.util.RandomUtil;
 import com.cdac.osvs.util.email.EmailService;
@@ -25,7 +20,6 @@ import org.springframework.stereotype.Service;
 import com.cdac.osvs.dto.Election;
 import com.cdac.osvs.repo.ElectionRepo;
 import com.cdac.osvs.repo.VoterElectionVotedRepo;
-import com.cdac.osvs.repo.VoterRepo;
 import com.cdac.osvs.service.ElectionService;
 
 
@@ -82,7 +76,7 @@ public class ElectionServiceImple implements ElectionService {
 
         for (Voter voter : voterList) {
             System.out.println("a");
-            Voter_Election_Voted voterEletionVoted = new Voter_Election_Voted();
+            VoterElectionVoted voterEletionVoted = new VoterElectionVoted();
 
             voterEletionVoted.setElectionId(election.getElectionId());
             voterEletionVoted.setVoterId(voter.getVoterId());

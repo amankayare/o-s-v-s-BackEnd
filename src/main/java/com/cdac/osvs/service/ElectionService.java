@@ -3,7 +3,6 @@ package com.cdac.osvs.service;
 import java.util.List;
 
 import com.cdac.osvs.dto.Election;
-import com.cdac.osvs.dto.Voter_Election_Voted;
 
 
 public interface ElectionService {

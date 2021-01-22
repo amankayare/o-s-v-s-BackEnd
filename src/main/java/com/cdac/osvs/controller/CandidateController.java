@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.cdac.osvs.dto.*;
+import com.cdac.osvs.service.CandidateElectionEarnedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +35,8 @@ public class CandidateController {
     @Autowired
     public CandidateService candidateService;
 
+    @Autowired
+    public CandidateElectionEarnedService candidateElectionEarnedService;
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "addCandidate", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
@@ -58,7 +61,6 @@ public class CandidateController {
             candidate.setEmail(email);
             candidate.setAdharNo(adharNo);
             candidate.setEmployeeId(employeeId);
-
 
 
             //   System.out.println(RandomUtil.candidateUploadDirectory + adharNo + "\\");
@@ -125,7 +127,7 @@ public class CandidateController {
 
 
     @CrossOrigin(origins = "*")
-    @PutMapping(path = "modifyCandidate",  produces = "application/json")
+    @PutMapping(path = "modifyCandidate", produces = "application/json")
     public CandidateStatus modifyCandidate(@RequestParam(value = "fullName") String candidateName,
                                            @RequestParam(value = "email") String email,
                                            @RequestParam(value = "symbol") MultipartFile file,
@@ -134,91 +136,84 @@ public class CandidateController {
                                            @RequestParam(value = "candidateId") int candidateId) {
 
 
-        try{
-        //file i/o for updation
-        Candidate candidate = new Candidate();
+        try {
+            //file i/o for updation
+            Candidate candidate = new Candidate();
 
-        //byte[] byteArr = file.getBytes();
-        System.out.println("53");
-        candidate.setFullName(candidateName);
-        candidate.setEmail(email);
-        candidate.setAdharNo(adharNo);
-        candidate.setEmployeeId(employeeId);
-        candidate.setCandidateId(candidateId);
-
-
+            //byte[] byteArr = file.getBytes();
+            System.out.println("53");
+            candidate.setFullName(candidateName);
+            candidate.setEmail(email);
+            candidate.setAdharNo(adharNo);
+            candidate.setEmployeeId(employeeId);
+            candidate.setCandidateId(candidateId);
 
 
-
-        String path = RandomUtil.candidateUploadDirectory + adharNo;
-        Boolean a = new File(path).mkdirs();
-
+            String path = RandomUtil.candidateUploadDirectory + adharNo;
+            Boolean a = new File(path).mkdirs();
 
 
+            if (a) {
+                System.out.println("yes");
 
-        if (a) {
-            System.out.println("yes");
+                Path fileNameAndPath = Paths.get(path + "/", adharNo + ".png");
 
-            Path fileNameAndPath = Paths.get(path + "/", adharNo + ".png");
+                Files.write(fileNameAndPath, file.getBytes());
 
-            Files.write(fileNameAndPath, file.getBytes());
+                candidate.setSymbol(path + "\\" + adharNo + ".png");
 
-            candidate.setSymbol(path + "\\" + adharNo + ".png");
+                Candidate updatedCandidate = null;
+                updatedCandidate = candidateService.update(candidate);
+                CandidateStatus status = new CandidateStatus();
+                if (updatedCandidate != null) {
+                    status.setCandidateId(updatedCandidate.getCandidateId());
+                    status.setEmployeeId(updatedCandidate.getEmployeeId());
+                    status.setCandidateId(updatedCandidate.getCandidateId());
+                    status.setSymbol(updatedCandidate.getSymbol());
+                    status.setEmail(updatedCandidate.getEmail());
+                    status.setAdharNo(updatedCandidate.getAdharNo());
+                    status.setFullName(updatedCandidate.getFullName());
+                    status.setListOfElection(updatedCandidate.getCandidateElectionList());
+                    status.setStatus(Status.StatusType.SUCCESS);
+                    status.setMessage("Candidate updated successfully");
+                    return status;
 
-            Candidate updatedCandidate = null;
-             updatedCandidate = candidateService.update(candidate);
-            CandidateStatus status = new CandidateStatus();
-            if (updatedCandidate != null) {
-                status.setVoteEarned(updatedCandidate.getVoteEarned());
-                status.setCandidateId(updatedCandidate.getCandidateId());
-                status.setEmployeeId(updatedCandidate.getEmployeeId());
-                status.setCandidateId(updatedCandidate.getCandidateId());
-                status.setSymbol(updatedCandidate.getSymbol());
-                status.setEmail(updatedCandidate.getEmail());
-                status.setAdharNo(updatedCandidate.getAdharNo());
-                status.setFullName(updatedCandidate.getFullName());
-                status.setListOfElection(updatedCandidate.getCandidateElectionList());
-                status.setStatus(Status.StatusType.SUCCESS);
-                status.setMessage("Candidate updated successfully");
-                return status;
-
+                } else {
+                    status.setStatus(Status.StatusType.FAILURE);
+                    status.setMessage("Candidate with this email or adhar no. already exist");
+                    return status;
+                }
             } else {
-                status.setStatus(Status.StatusType.FAILURE);
-                status.setMessage("Candidate with this email or adhar no. already exist");
-                return status;
+                System.out.println("NO");
+                Path fileNameAndPath = Paths.get(path + "/", adharNo + ".png");
+
+                Files.write(fileNameAndPath, file.getBytes());
+
+                candidate.setSymbol(path + "\\" + adharNo + ".png");
+
+                Candidate updatedCandidate = null;
+                updatedCandidate = candidateService.update(candidate);
+                CandidateStatus status = new CandidateStatus();
+                if (updatedCandidate != null) {
+                    status.setCandidateId(updatedCandidate.getCandidateId());
+                    status.setEmployeeId(updatedCandidate.getEmployeeId());
+                    status.setCandidateId(updatedCandidate.getCandidateId());
+                    status.setSymbol(updatedCandidate.getSymbol());
+                    status.setEmail(updatedCandidate.getEmail());
+                    status.setAdharNo(updatedCandidate.getAdharNo());
+                    status.setFullName(updatedCandidate.getFullName());
+                    status.setListOfElection(updatedCandidate.getCandidateElectionList());
+                    status.setStatus(Status.StatusType.SUCCESS);
+                    status.setMessage("Candidate updated successfully");
+                    return status;
+
+                } else {
+                    status.setStatus(Status.StatusType.FAILURE);
+                    status.setMessage("Candidate with this email or adhar no. already exist");
+                    return status;
+                }
+
             }
-        } else {
-            System.out.println("NO");
-            Path fileNameAndPath = Paths.get(path + "/", adharNo + ".png");
-
-            Files.write(fileNameAndPath, file.getBytes());
-
-            candidate.setSymbol(path + "\\" + adharNo + ".png");
-
-            Candidate updatedCandidate = null;
-            updatedCandidate = candidateService.update(candidate);
-            CandidateStatus status = new CandidateStatus();
-            if (updatedCandidate != null) {
-                status.setVoteEarned(updatedCandidate.getVoteEarned());
-                status.setCandidateId(updatedCandidate.getCandidateId());
-                status.setEmployeeId(updatedCandidate.getEmployeeId());
-                status.setCandidateId(updatedCandidate.getCandidateId());
-                status.setSymbol(updatedCandidate.getSymbol());
-                status.setEmail(updatedCandidate.getEmail());
-                status.setAdharNo(updatedCandidate.getAdharNo());
-                status.setFullName(updatedCandidate.getFullName());
-                status.setListOfElection(updatedCandidate.getCandidateElectionList());
-                status.setStatus(Status.StatusType.SUCCESS);
-                status.setMessage("Candidate updated successfully");
-                return status;
-
-            } else {
-                status.setStatus(Status.StatusType.FAILURE);
-                status.setMessage("Candidate with this email or adhar no. already exist");
-                return status;
-            }
-
-        }
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -262,7 +257,6 @@ public class CandidateController {
             status.setSymbol(candidate.getSymbol());
             status.setElectionId(candidate.getElectionId());
             status.setEmployeeId(candidate.getEmployeeId());
-            status.setVoteEarned(candidate.getVoteEarned());
             status.setFullName(candidate.getFullName());
             System.out.println(candidate.getCandidateElectionList());
             for (Election election : candidate.getCandidateElectionList()) {
@@ -287,15 +281,16 @@ public class CandidateController {
         return candidateService.selectAllCandidate();
     }
 
-    //after voter login
+    //after voter login i.e after push on vote button
     @CrossOrigin(origins = "*")
-    @PutMapping(path = "modifyCandidateVoteEarned", produces = "application/json")
+    @PutMapping(path = "modifyCandidateVoteEarnedAndVoterVoteStatus", produces = "application/json")
     public CandidateStatus modifyCandidateVoteEarned(@RequestParam(value = "candidateId") int candidateId, @RequestParam(value = "electionId") int electionId, @RequestParam(value = "voterId") int voterId) {
-        Boolean voted = candidateService.addVoteEarned(candidateId, electionId, voterId);
+        Boolean voted = false;
+        voted = candidateElectionEarnedService.addVoteEarned(electionId, candidateId, voterId);
 
         CandidateStatus status = new CandidateStatus();
 
-        if (status != null) {
+        if (voted) {
 
             status.setStatus(Status.StatusType.SUCCESS);
             status.setMessage("Voted Successfully");
@@ -307,5 +302,4 @@ public class CandidateController {
             return status;
         }
     }
-
 }

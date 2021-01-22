@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.cdac.osvs.dto.*;
+import com.cdac.osvs.repo.VoterElectionVotedRepo;
 import com.cdac.osvs.service.ElectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,6 +43,10 @@ public class VoterController {
     @Autowired
     private ElectionService electionService;
 
+    @Autowired
+    private VoterElectionVotedRepo voterElectionVotedRepo;
+
+
     @CrossOrigin(origins = "*")
     @PostMapping(path = "voterLogin", produces = "application/json")
     public VoterLoginStatus voterLogin(@RequestParam(value = "adharNo") long adharNo,
@@ -54,7 +59,7 @@ public class VoterController {
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("Login Failed !!! probably election with this id not found");
             return status;
-        } else {
+        }else {
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate today = LocalDate.now();
@@ -78,6 +83,17 @@ public class VoterController {
                     Voter fetchedVoter = null;
                     fetchedVoter = voterService.checkLoginStatus(adharNo, password);
                     if (fetchedVoter != null) {
+
+                        //checking voter is already voted for this election or not
+                        VoterElectionVoted vev = voterElectionVotedRepo.getvoterElectionVotingStatus(electionId, fetchedVoter.getVoterId());
+                        if(vev.getIsVoted() == 0){
+                            status.setStatus(Status.StatusType.FAILURE);
+                            status.setMessage("Voter is already voted for this election");
+                            return status;
+
+                        }
+
+
                         status.setStatus(Status.StatusType.SUCCESS);
                         status.setMessage("Login Successfully");
                         return status;
