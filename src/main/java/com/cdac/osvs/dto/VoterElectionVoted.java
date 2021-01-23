@@ -11,7 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "Voter_Election_IsVoted")
-public class Voter_Election_Voted {
+public class VoterElectionVoted {
 
     @Id
     @Column(name = "Voter_Election_IsVotedId")

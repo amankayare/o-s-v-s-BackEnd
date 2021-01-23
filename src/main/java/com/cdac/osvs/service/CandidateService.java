@@ -16,7 +16,5 @@ public interface CandidateService {
 
     public Candidate update(Candidate candidate);
 
-    public Boolean addVoteEarned(int eId, int cId, int vId);
 
-    public int getVoteEarned(int eId, int cId);
 }
