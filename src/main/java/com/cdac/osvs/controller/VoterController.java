@@ -52,6 +52,13 @@ public class VoterController {
     public VoterLoginStatus voterLogin(@RequestParam(value = "adharNo") long adharNo,
                                        @RequestParam(value = "password") String password,
                                        @RequestParam("electionId") int electionId) {
+
+
+        System.out.println(adharNo);
+        System.out.println(password);
+        System.out.println(electionId);
+
+
         VoterLoginStatus status = new VoterLoginStatus();
         Election election = null;
         election = electionService.selectById(electionId);
@@ -59,7 +66,7 @@ public class VoterController {
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("Login Failed !!! probably election with this id not found");
             return status;
-        }else {
+        } else {
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate today = LocalDate.now();
@@ -70,11 +77,11 @@ public class VoterController {
 
             LocalDate startDate = LocalDate.parse(stringStartDate, dtf);
             LocalDate endDate = LocalDate.parse(stringEndDate, dtf);
-            System.out.println("Converted End Date: "+endDate);
-            System.out.println("Converted start Date: "+startDate);
+            System.out.println("Converted End Date: " + endDate);
+            System.out.println("Converted start Date: " + startDate);
 
 
-            if(today.compareTo(startDate)>=0 &&  today.compareTo(endDate) <= 0){
+            if (today.compareTo(startDate) >= 0 && today.compareTo(endDate) <= 0) {
 
                 status.setStatus(Status.StatusType.SUCCESS);
                 status.setMessage("voting is  allowed today");
@@ -86,17 +93,24 @@ public class VoterController {
 
                         //checking voter is already voted for this election or not
                         VoterElectionVoted vev = voterElectionVotedRepo.getvoterElectionVotingStatus(electionId, fetchedVoter.getVoterId());
-                        if(vev.getIsVoted() == 0){
+                        if (vev.getIsVoted() == 1) {
                             status.setStatus(Status.StatusType.FAILURE);
                             status.setMessage("Voter is already voted for this election");
                             return status;
 
+                        } else {
+                            status.setStatus(Status.StatusType.SUCCESS);
+                            status.setMessage("Login Successfully");
+                            status.setEmail(fetchedVoter.getEmail());
+                            status.setVoterId(fetchedVoter.getVoterId());
+                            status.setAdharNo(fetchedVoter.getAdharNo());
+                            status.setEmployeeId(fetchedVoter.getEmployeeId());
+                            status.setFullName(fetchedVoter.getFullName());
+                            status.setPassword(fetchedVoter.getPassword());
+                            return status;
+
                         }
 
-
-                        status.setStatus(Status.StatusType.SUCCESS);
-                        status.setMessage("Login Successfully");
-                        return status;
 
                     } else {
                         status.setStatus(Status.StatusType.FAILURE);
@@ -110,9 +124,9 @@ public class VoterController {
                     return status;
                 }
 
-            }else{
+            } else {
                 status.setStatus(Status.StatusType.FAILURE);
-                status.setMessage("voting is not allowed today");
+                status.setMessage("voting is not allowed today probably election is not started or ended");
                 return status;
             }
 
@@ -235,14 +249,24 @@ public class VoterController {
                                @RequestParam(value = "electionId") int electionId,
                                @RequestParam(value = "voterId") int voterId) {
 
+
+        System.out.println(electionId);
+        System.out.println(electionId);
+        System.out.println(file.getOriginalFilename());
+        System.out.println("----------------------------");
+
         Status status = new Status();
         try {
+            System.out.println("1");
 
             Security security = securityService.getSecurityByVoterIdEletionId(voterId, electionId);
+            System.out.println(security);
+
             int keyValue = security.getKeyValue();
             String shareOnePath = security.getShareoneImg();
             String originalPath = security.getOrignalImg();
 
+            System.out.println("2");
 
             byte[] byteArr = file.getBytes();
             String randomFileName = RandomUtil.generatingRandomAlphanumericFileName();
@@ -252,22 +276,29 @@ public class VoterController {
             fos.write(file.getBytes());
             fos.close();
 
+            System.out.println("3");
 
             File decryptedShareTwo = DecrytImage.doDecrypt(convFile, keyValue);
+            System.out.println("decryptedShareTwo-->"+decryptedShareTwo.getPath());
 
+            System.out.println("4");
 
             File shareOne = new File(shareOnePath);
 
             //  FileUtils.writeByteArrayToFile(shareOne, shareOneByte);
 
+            System.out.println("5");
 
             File orignalImage = new File(originalPath);
 
             //  FileUtils.writeByteArrayToFile(orignalImage, security.getOrignalImg());
 
+            System.out.println("6");
 
             File mergedFile = MergeImage.merge(shareOne, decryptedShareTwo);
+            System.out.println(mergedFile.getPath());
 
+            System.out.println("same");
 
             Boolean isSame = CompareImage.isEqual(orignalImage, mergedFile);
 
@@ -285,8 +316,8 @@ public class VoterController {
                 return status;
             }
         } catch (Exception e) {
-
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            System.out.println("EXCEPTION: "+e.getMessage());
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage(e.getMessage());
             return status;

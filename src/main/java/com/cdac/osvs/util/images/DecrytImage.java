@@ -47,6 +47,7 @@ public class DecrytImage {
         fis.close();
 
         System.out.println(" image decryted");
+        System.out.println("File Dcrypted=>"+fileToDecrypt);
         return fileToDecrypt;
     }
 }

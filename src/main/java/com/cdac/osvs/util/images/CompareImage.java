@@ -16,7 +16,7 @@ public class CompareImage {
 
 
         if ((w1 != w2) || (h1 != h2)) {
-            System.out.println("Both images should have same dimwnsions");
+            System.out.println("Both images should have same dimensions");
             return false;
         } else {
             long diff = 0;

@@ -21,7 +21,6 @@ public class EmailService {
     @Value("${email.voting.subject}")
     String votingSubject;
 
-    ;
     @Value("${email.voter.register.subject}")
     String voterRegistration;
 
