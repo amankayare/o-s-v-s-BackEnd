@@ -29,7 +29,7 @@ public class ElectionController {
     public ElectionService electionService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "addElection", consumes = "application/json")
+    @PostMapping(path = "addElection")
     public String addElection(@RequestBody Election election) {
         System.out.println(election.getCandidateList());
         System.out.println(election.getVoterList());

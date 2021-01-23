@@ -31,7 +31,7 @@ public class Candidate {
     private String symbol;
 
     @Column(name = "employee_Id", nullable = false)
-    private int employeeId;
+    private String employeeId;
 
     @Column(name = "election_Id", nullable = false)
     private int electionId;
@@ -91,11 +91,11 @@ public class Candidate {
         this.symbol = symbol;
     }
 
-    public int getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 

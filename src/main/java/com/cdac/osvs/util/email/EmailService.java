@@ -60,7 +60,7 @@ public class EmailService {
         try {
             MimeMessage message = emailSender.createMimeMessage();
 
-            String text = "http://" + domain + ":" + angularPort + "/E-Ballot/api/addVoter/";
+            String text = "http://" + domain + ":" + angularPort + "/E-Ballot/api/addvoter/";
 
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -80,7 +80,7 @@ public class EmailService {
     public void sendMessageForCandidateRegister(String to, String name) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 
-        String text = "http://localhost:" + angularPort + "/E-Ballot/api/addCandidate/";
+        String text = "http://localhost:" + angularPort + "/E-Ballot/api/addcandidates/";
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
