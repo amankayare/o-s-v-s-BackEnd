@@ -29,7 +29,7 @@ public class ElectionController {
     public ElectionService electionService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping(path = "addElection", consumes = "application/json")
+    @PostMapping(path = "addElection")
     public String addElection(@RequestBody Election election) {
         System.out.println(election.getCandidateList());
         System.out.println(election.getVoterList());
@@ -104,8 +104,21 @@ public class ElectionController {
         }
         return status;
     }
+   
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "getElectionByCin/{cin}", produces = "application/json")
+    public List<Election> getElectionByCin(@PathVariable String cin) {
+    	System.out.println("111 controller "+cin);
+    	return electionService.getElectionByCin(cin);
+    }
 
-
+    @CrossOrigin(origins = "*")
+    @GetMapping(path = "getElectionByEidInDesc", produces = "application/json")
+    public List<Election> getAlreadElectionByElectionIdInDesc() {
+    	
+    	return electionService.getAlreadElectionByElectionIdInDesc();
+    }
+    
 }
 
 

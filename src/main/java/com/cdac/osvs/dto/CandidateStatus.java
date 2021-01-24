@@ -18,7 +18,7 @@ public class CandidateStatus extends Status{
 
     private String symbol;
 
-    private int employeeId;
+    private String employeeId;
 
     private int electionId;
 
@@ -68,11 +68,11 @@ public class CandidateStatus extends Status{
         this.symbol = symbol;
     }
 
-    public int getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 

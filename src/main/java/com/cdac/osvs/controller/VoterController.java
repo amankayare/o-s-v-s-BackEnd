@@ -28,6 +28,7 @@ import com.cdac.osvs.service.SecurityService;
 import com.cdac.osvs.service.VoterService;
 import com.cdac.osvs.util.RandomUtil;
 import com.cdac.osvs.util.images.CompareImage;
+import com.cdac.osvs.util.images.ConversionUtil;
 import com.cdac.osvs.util.images.DecrytImage;
 import com.cdac.osvs.util.images.MergeImage;
 
@@ -161,6 +162,8 @@ public class VoterController {
         Voter updatedVoter = null;
         VoterStatus status = new VoterStatus();
 
+        System.out.println(voter);
+        
         updatedVoter = voterService.update(voter);
 
         if (updatedVoter != null) {
@@ -185,9 +188,9 @@ public class VoterController {
     }
 
     @CrossOrigin(origins = "*")
-    @DeleteMapping(path = "removeVoter/{id}", consumes = "application/json", produces = "application/json")
+    @DeleteMapping(path = "removeVoter/{id}", produces = "application/json")
     public VoterStatus removeVoter(@PathVariable Integer id) {
-
+       System.out.println(" id "+id);
         Boolean removed = voterService.deleteById(id);
         VoterStatus status = new VoterStatus();
         if (removed) {
@@ -259,6 +262,8 @@ public class VoterController {
         try {
             System.out.println("1");
 
+        	  System.out.println("244");
+        	
             Security security = securityService.getSecurityByVoterIdEletionId(voterId, electionId);
             System.out.println(security);
 
@@ -267,16 +272,30 @@ public class VoterController {
             String originalPath = security.getOrignalImg();
 
             System.out.println("2");
+            System.out.println(shareOnePath);
+            System.out.println(originalPath);
 
-            byte[] byteArr = file.getBytes();
+            System.out.println("252");
+            
+           // byte[] byteArr = file.getBytes();
             String randomFileName = RandomUtil.generatingRandomAlphanumericFileName();
             new File(RandomUtil.compareUploadDirectory).mkdirs();
-            File convFile = new File(RandomUtil.compareUploadDirectory + randomFileName + ".png");
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
+//            File convFile = new File(RandomUtil.compareUploadDirectory + randomFileName + ".png");
+//            FileOutputStream fos = new FileOutputStream(convFile);
+//            fos.write(file.getBytes());
+//            fos.close();
 
-            System.out.println("3");
+//            System.out.println("3");
+//            File convFile = new File(RandomUtil.compareUploadDirectory + randomFileName + ".png");
+//            FileOutputStream fos = new FileOutputStream(convFile);
+//            fos.write(file.getBytes());
+//            fos.close();
+
+            System.out.println("258");
+            
+           File convFile=  ConversionUtil.multipartToFileForOrganization(file,RandomUtil.compareUploadDirectory + randomFileName + ".png");
+            
+         System.out.println("261");
 
             File decryptedShareTwo = DecrytImage.doDecrypt(convFile, keyValue);
             System.out.println("decryptedShareTwo-->"+decryptedShareTwo.getPath());

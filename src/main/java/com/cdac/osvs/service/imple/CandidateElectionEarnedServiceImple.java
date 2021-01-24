@@ -1,5 +1,7 @@
 package com.cdac.osvs.service.imple;
 
+import com.cdac.osvs.Exception.CandidateElectionEarnedException;
+import com.cdac.osvs.Exception.EmailException;
 import com.cdac.osvs.dto.CandidateElectionEarned;
 import com.cdac.osvs.dto.VoterElectionVoted;
 import com.cdac.osvs.repo.CandidateElectionEarnedRepo;
@@ -115,10 +117,25 @@ public class CandidateElectionEarnedServiceImple implements CandidateElectionEar
 
     @Override
     public int getVoteEarned(int electionId, int candidateId) {
-
-        CandidateElectionEarned candidateElectionEarned = candidateElectionEarnedRepo.findByElectionIdAndCandidateID(candidateId, electionId);
-
-        return candidateElectionEarned.getVoteEarned();
+  
+       try {
+    	   
+    	      System.out.println(electionId+" "+candidateId);
+    	        CandidateElectionEarned candidateElectionEarned = candidateElectionEarnedRepo.findByElectionIdAndCandidateID(candidateId, electionId);
+    	        System.out.println(candidateElectionEarned.getVoteEarned());
+    	   
+    	   if(candidateElectionEarned==null) {
+           	System.out.println("IF");
+           	
+           //	throw new CandidateElectionEarnedException(exception.getMessage());
+           	
+           	return 0;
+           }else {
+           	return candidateElectionEarned.getVoteEarned();
+           }
+       }catch(Exception exception) {
+    	   return 0;
+       }
 
     }
 

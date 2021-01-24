@@ -16,4 +16,7 @@ public interface ElectionService {
 
     public String update(Election election);
 
+    public List<Election> getElectionByCin(String cin);
+    
+    public List<Election> getAlreadElectionByElectionIdInDesc();
 }

@@ -45,12 +45,14 @@ public class CandidateController {
     public CandidateStatus addCandidate(@RequestParam(value = "fullName") String candidateName,
                                         @RequestParam(value = "email") String email,
                                         @RequestParam(value = "symbol") MultipartFile file,
-                                        @RequestParam(value = "adharNo") int adharNo,
-                                        @RequestParam(value = "employeeId") int employeeId
+                                        @RequestParam(value = "adharNo") long adharNo,
+                                        @RequestParam(value = "employeeId") String employeeId
     ) {
 
         try {
 
+        	
+        	
 
             //Status status = new Status();
             Candidate candidate = new Candidate();
@@ -131,14 +133,15 @@ public class CandidateController {
     public CandidateStatus modifyCandidate(@RequestParam(value = "fullName") String candidateName,
                                            @RequestParam(value = "email") String email,
                                            @RequestParam(value = "symbol") MultipartFile file,
-                                           @RequestParam(value = "adharNo") int adharNo,
-                                           @RequestParam(value = "employeeId") int employeeId,
+                                           @RequestParam(value = "adharNo") long adharNo,
+                                           @RequestParam(value = "employeeId") String employeeId,
                                            @RequestParam(value = "candidateId") int candidateId) {
 
 
         try {
             //file i/o for updation
             Candidate candidate = new Candidate();
+
 
             //byte[] byteArr = file.getBytes();
             System.out.println("53");
@@ -162,6 +165,8 @@ public class CandidateController {
 
                 candidate.setSymbol(path + "\\" + adharNo + ".png");
 
+
+
                 Candidate updatedCandidate = null;
                 updatedCandidate = candidateService.update(candidate);
                 CandidateStatus status = new CandidateStatus();
@@ -177,6 +182,7 @@ public class CandidateController {
                     status.setStatus(Status.StatusType.SUCCESS);
                     status.setMessage("Candidate updated successfully");
                     return status;
+
 
                 } else {
                     status.setStatus(Status.StatusType.FAILURE);
