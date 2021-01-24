@@ -295,7 +295,7 @@ public class VoterController {
             
            File convFile=  ConversionUtil.multipartToFileForOrganization(file,RandomUtil.compareUploadDirectory + randomFileName + ".png");
             
-         System.out.println("261");
+            System.out.println("261");
 
             File decryptedShareTwo = DecrytImage.doDecrypt(convFile, keyValue);
             System.out.println("decryptedShareTwo-->"+decryptedShareTwo.getPath());

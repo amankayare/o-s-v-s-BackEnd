@@ -3,6 +3,7 @@ package com.cdac.osvs.service;
 import java.util.List;
 
 import com.cdac.osvs.dto.Admin;
+import com.cdac.osvs.dto.Voter;
 
 
 public interface AdminService {
@@ -15,4 +16,6 @@ public interface AdminService {
     public Boolean insertAdmin(Admin admin);
 
     public Boolean update(Admin admin);
+    public Admin checkLoginStatus(String  username, String password) ;
+
 }

@@ -3,6 +3,7 @@ package com.cdac.osvs.service.imple;
 import java.util.List;
 import java.util.Optional;
 
+import com.cdac.osvs.dto.Voter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,12 @@ public class AdminServiceImple implements AdminService {
         } else {
             return false;
         }
+
+    }
+
+    @Override
+    public Admin checkLoginStatus(String username, String password) {
+        return adminRepo.adminIsPresent(username, password);
 
     }
 
