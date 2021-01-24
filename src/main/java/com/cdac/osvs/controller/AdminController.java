@@ -2,21 +2,10 @@ package com.cdac.osvs.controller;
 
 import java.util.List;
 
-import com.cdac.osvs.dto.AdminLoginStatus;
-import com.cdac.osvs.dto.AdminStatus;
-import com.cdac.osvs.dto.Status;
+import com.cdac.osvs.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.cdac.osvs.dto.Admin;
 import com.cdac.osvs.service.AdminService;
 
 
@@ -33,12 +22,12 @@ public class AdminController {
     public AdminStatus addAdmin(@RequestBody Admin admin) {
         Boolean isInserted = false;
         isInserted = adminService.insertAdmin(admin);
-        if(isInserted){
+        if (isInserted) {
             AdminStatus status = new AdminStatus();
             status.setStatus(Status.StatusType.SUCCESS);
             status.setMessage("admin added successfully");
             return status;
-        }else{
+        } else {
             AdminStatus status = new AdminStatus();
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("admin not added");
@@ -51,12 +40,12 @@ public class AdminController {
     @PutMapping(path = "modifyAdmin", consumes = "application/json", produces = "application/json")
     public AdminStatus modifyAdmin(@RequestBody Admin admin) {
         Boolean updated = adminService.update(admin);
-        if(updated){
+        if (updated) {
             AdminStatus status = new AdminStatus();
             status.setStatus(Status.StatusType.SUCCESS);
             status.setMessage("admin updated successfully");
             return status;
-        }else{
+        } else {
             AdminStatus status = new AdminStatus();
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("admin not found");
@@ -70,12 +59,12 @@ public class AdminController {
     public AdminStatus removeAdmin(@PathVariable Integer id) {
         Boolean isDeleted;
         isDeleted = adminService.deleteById(id);
-        if(isDeleted){
+        if (isDeleted) {
             AdminStatus status = new AdminStatus();
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("admin deleted Successfully");
             return status;
-        }else{
+        } else {
             AdminStatus status = new AdminStatus();
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("admin not found");
@@ -87,17 +76,17 @@ public class AdminController {
     @GetMapping(path = "getAdmin/{id}", consumes = "application/json", produces = "application/json")
     public AdminStatus getAdmin(@PathVariable Integer id) {
         AdminStatus status = new AdminStatus();
-        Admin  isFound = null;
+        Admin isFound = null;
 
         isFound = adminService.selectById(id);
-        if(isFound != null){
+        if (isFound != null) {
             status.setAdminId(isFound.getAdminId());
             status.setPassword(isFound.getPassword());
             status.setUsername(isFound.getUsername());
             status.setStatus(Status.StatusType.SUCCESS);
             status.setMessage("admin fetch succesfully");
 
-        }else{
+        } else {
 
             status.setStatus(Status.StatusType.FAILURE);
             status.setMessage("admin not found");
@@ -112,5 +101,28 @@ public class AdminController {
 
         return adminService.selectAllAdmin();
 
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "adminLogin", produces = "application/json")
+    public AdminStatus adminLogin(@RequestParam(value = "username") String username,
+                                  @RequestParam(value = "password") String password) {
+
+        AdminStatus status = new AdminStatus();
+
+        Admin fetchedAdmin = null;
+        fetchedAdmin = adminService.checkLoginStatus(username, password);
+
+        if (fetchedAdmin != null) {
+
+
+            status.setStatus(Status.StatusType.SUCCESS);
+            status.setMessage("Login Successfully");
+            return status;
+        } else {
+            status.setStatus(Status.StatusType.FAILURE);
+            status.setMessage("Login Failed admin not found");
+            return status;
+        }
     }
 }
