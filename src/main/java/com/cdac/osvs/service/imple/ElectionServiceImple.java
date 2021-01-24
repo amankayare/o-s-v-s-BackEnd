@@ -175,5 +175,17 @@ public class ElectionServiceImple implements ElectionService {
 
     }
 
+	@Override
+	public List<Election> getElectionByCin(String cin) {
+		
+		return electionRepo.getAlreadElectionByCin(cin);
+	}
+
+	@Override
+	public List<Election> getAlreadElectionByElectionIdInDesc() {
+		// TODO Auto-generated method stub
+		return electionRepo.getAlreadElectionByElectionIdInDesc();
+	}
+
 
 }
