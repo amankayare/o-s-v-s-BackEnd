@@ -65,7 +65,7 @@ public class VoterController {
         election = electionService.selectById(electionId);
         if (election == null) {
             status.setStatus(Status.StatusType.FAILURE);
-            status.setMessage("Login Failed !!! probably election with this id not found");
+            status.setMessage("Login Failed !!! probably due to invalid login link");
             return status;
         } else {
 
@@ -127,7 +127,7 @@ public class VoterController {
 
             } else {
                 status.setStatus(Status.StatusType.FAILURE);
-                status.setMessage("voting is not allowed today probably election is not started or ended");
+                status.setMessage("voting is not allowed today probably election is not started or already ended");
                 return status;
             }
 
