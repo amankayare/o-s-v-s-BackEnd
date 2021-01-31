@@ -65,10 +65,6 @@ public class Election {
 
 
 
-    @Column(name = "organization_id")
-    private String organization_id;
-
-
     @Column(name = "cin")
     @ColumnDefault(value = "0")
     private String cin;
@@ -132,14 +128,6 @@ public class Election {
 
     public void setCandidateList(Set<Candidate> candidateList) {
         this.candidateList = candidateList;
-    }
-
-    public String getOrganization_id() {
-        return organization_id;
-    }
-
-    public void setOrganization_id(String organization_id) {
-        this.organization_id = organization_id;
     }
 
     public String getCin() {

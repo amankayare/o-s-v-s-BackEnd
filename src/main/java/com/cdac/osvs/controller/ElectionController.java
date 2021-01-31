@@ -69,7 +69,6 @@ public class ElectionController {
             status.setStartDate(election.getStartDate());
             status.setCandidateList(election.getCandidateList());
             status.setVoterList(election.getVoterList());
-            status.setOrganization_id(election.getOrganization_id());
             status.setResultDate(election.getResultDate());
             return status;
         } else {
@@ -94,7 +93,6 @@ public class ElectionController {
             temp.setResultDate(election.getResultDate());
             temp.setElectionId(election.getElectionId());
             temp.setElectionName(election.getElectionName());
-            temp.setOrganization_id(election.getOrganization_id());
             temp.setVoterList(election.getVoterList());
             temp.setCandidateList(election.getCandidateList());
             temp.setCin(election.getCin());

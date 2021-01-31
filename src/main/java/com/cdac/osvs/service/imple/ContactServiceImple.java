@@ -4,6 +4,7 @@ import com.cdac.osvs.dto.Contact;
 import com.cdac.osvs.repo.ContactRepo;
 import com.cdac.osvs.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ContactServiceImple implements ContactService {
 
     @Override
     public List<Contact> selectAllContact() {
-        return contactRepo.findAll();
+        return contactRepo.findAll(Sort.by(Sort.Direction.DESC, "contactId"));
     }
 
     @Override
